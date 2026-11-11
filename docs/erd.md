@@ -1,6 +1,6 @@
 # ERP entity relationships
 
-Phase 0 uses Django User, Group, Permission and Session. The workspace permission uses an unmanaged content type. Redis stores the expiring IP and username login counters. Phase 1 implements master data, physical stock and warehouse carrying value, stocktakes, alerts, and audit events. Procurement and later relationships remain planned.
+Phase 0 uses Django User, Group, Permission and Session. The workspace permission uses an unmanaged content type. Redis stores the expiring IP and username login counters. Phase 1 implements master data, physical stock and warehouse carrying value, stocktakes, alerts, and audit events. Phase 2 implements the procurement documents and approval workflow. Payables and later modules remain planned.
 
 ```mermaid
 erDiagram
@@ -18,7 +18,7 @@ erDiagram
     WAREHOUSE ||--o{ LOCATION : contains
     ITEM ||--o{ BATCH : tracks
     SUPPLIER |o--o{ BATCH : provides
-    GOODS_RECEIPT_LINE |o--o{ BATCH : introduces
+    GOODS_RECEIPT_LINE |o--|| BATCH : introduces
     BATCH ||--o{ STOCK_MOVEMENT : moves
     LOCATION ||--o{ STOCK_MOVEMENT : affects
     ITEM ||--o{ WAREHOUSE_COST : valued
@@ -39,12 +39,16 @@ erDiagram
     PURCHASE_REQUEST ||--|{ PURCHASE_REQUEST_LINE : contains
     ITEM ||--o{ PURCHASE_REQUEST_LINE : needed
     ITEM_CATEGORY ||--o{ APPROVAL_RULE : scopes
-    PURCHASE_REQUEST ||--o{ APPROVAL_STEP : requires
+    PURCHASE_REQUEST |o--o| APPROVAL_CASE : requires
+    PURCHASE_ORDER_VERSION |o--o| APPROVAL_CASE : requires
+    APPROVAL_CASE ||--|{ APPROVAL_STEP : contains
+    USER ||--o{ APPROVAL_DELEGATION : delegates
     APPROVAL_RULE ||--o{ APPROVAL_STEP : determines
     USER |o--o{ APPROVAL_STEP : decides
     PURCHASE_REQUEST ||--o{ RFQ : sources
     RFQ ||--o{ QUOTE : receives
     SUPPLIER ||--o{ QUOTE : submits
+    RFQ ||--|{ RFQ_SUPPLIER : invites
     QUOTE ||--|{ QUOTE_LINE : contains
     PURCHASE_REQUEST_LINE ||--o{ QUOTE_LINE : prices
     SUPPLIER ||--o{ PURCHASE_ORDER : receives
@@ -52,7 +56,11 @@ erDiagram
     PURCHASE_ORDER_VERSION ||--|{ PURCHASE_ORDER_LINE : contains
     ITEM ||--o{ PURCHASE_ORDER_LINE : ordered
     PURCHASE_ORDER ||--o{ GOODS_RECEIPT : fulfilled
+    PURCHASE_ORDER_VERSION ||--o{ GOODS_RECEIPT : governs
     GOODS_RECEIPT ||--|{ GOODS_RECEIPT_LINE : contains
+    GOODS_RECEIPT_LINE ||--o{ SUPPLIER_RETURN : returns
+    ATTACHMENT ||--o{ SUPPLIER_RETURN : evidences
+    GOODS_RECEIPT_LINE ||--|| STOCK_OPERATION : posts
     PURCHASE_ORDER_LINE ||--o{ GOODS_RECEIPT_LINE : fulfills
     SUPPLIER ||--o{ SUPPLIER_INVOICE : bills
     SUPPLIER_INVOICE ||--|{ SUPPLIER_INVOICE_LINE : contains
@@ -62,6 +70,8 @@ erDiagram
     SUPPLIER_INVOICE ||--o{ PAYMENT_ALLOCATION : settles
     SUPPLIER ||--o{ CREDIT_NOTE : credits
     SUPPLIER_INVOICE |o--o{ CREDIT_NOTE : adjusts
+    PURCHASE_REQUEST |o--o{ ATTACHMENT : documents
+    PURCHASE_ORDER |o--o{ ATTACHMENT : documents
     GOODS_RECEIPT |o--o{ ATTACHMENT : documents
     SUPPLIER_INVOICE |o--o{ ATTACHMENT : documents
     SUPPLIER_CONTRACT |o--o{ ATTACHMENT : documents
