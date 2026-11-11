@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 from functools import wraps
 from typing import Any, cast
 from uuid import NAMESPACE_URL, uuid5
@@ -187,7 +187,12 @@ def detail(request: HttpRequest, kind: str, pk: int) -> HttpResponse:
         for quote in record.quotes.select_related("supplier").order_by("total_uzs", "pk"):
             count, on_time, _defects = metrics.get(quote.supplier_id, (0, 0, 0))
             comparison.append(
-                (quote, (Decimal(on_time) * 5 / count).quantize(Decimal(".1")) if count else None)
+                (
+                    quote,
+                    (Decimal(on_time) * 5 / count).quantize(Decimal(".1"), rounding=ROUND_HALF_UP)
+                    if count
+                    else None,
+                )
             )
         context["comparison"] = comparison
         context["invitations"] = record.invitations.select_related("supplier")
@@ -677,7 +682,12 @@ def deliveries(request: HttpRequest) -> HttpResponse:
 
     suppliers = Supplier.objects.in_bulk(metrics)
     stats = [
-        (suppliers[pk], count, (Decimal(on_time) * 100 / count).quantize(Decimal(".01")), defects)
+        (
+            suppliers[pk],
+            count,
+            (Decimal(on_time) * 100 / count).quantize(Decimal(".01"), rounding=ROUND_HALF_UP),
+            defects,
+        )
         for pk, (count, on_time, defects) in metrics.items()
     ]
     receipts = GoodsReceipt.objects.select_related("order__supplier", "version")

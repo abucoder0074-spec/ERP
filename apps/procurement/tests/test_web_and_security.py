@@ -1,3 +1,4 @@
+from decimal import Decimal
 from io import BytesIO
 from uuid import uuid4
 
@@ -17,6 +18,8 @@ from apps.inventory.models import AuditLog
 from apps.procurement.models import PurchaseRequest, State
 from apps.procurement.services.attachments import attach, read_attachment, validate_attachment
 from apps.procurement.services.common import TRANSITIONS, check_transition
+from apps.procurement.services.invoices import InvoiceData, InvoiceLine, record_invoice
+from apps.procurement.services.quotes import open_rfq
 from apps.procurement.tests.conftest import Setup
 from apps.procurement.tests.test_receiving_invoice import photo
 
@@ -156,7 +159,7 @@ def test_role_actions(client: Client, setup: Setup, role: str) -> None:
         assert client.get(url).status_code == (200 if allowed else 403), url
 
 
-def test_http_receiving_invoice_and_query_counts(client: Client, setup: Setup) -> None:
+def test_http_receiving_and_invoice(client: Client, setup: Setup) -> None:
     client.force_login(setup.actor)
     order = setup.order()
     data = {
@@ -197,14 +200,44 @@ def test_http_receiving_invoice_and_query_counts(client: Client, setup: Setup) -
     assert (
         client.get(reverse("procurement_detail", args=["invoices", invoice.pk])).status_code == 200
     )
-    viewer = User.objects.create(username="procurement-viewer")
-    viewer.groups.add(Group.objects.get(name="Viewer"))
-    client.force_login(viewer)
-    for _ in range(2):
-        with CaptureQueriesContext(connection) as captured:
-            assert client.get(reverse("procurement_list", args=["orders"])).status_code == 200
-        assert len(captured) == 6
-        setup.order()
+
+
+def test_list_queries_do_not_grow_with_rows(client: Client, setup: Setup) -> None:
+    manager = User.objects.create(username="procurement-list-manager")
+    manager.groups.add(Group.objects.get(name="Procurement Manager"))
+    client.force_login(manager)
+    urls = [
+        reverse("procurement_list", args=[kind])
+        for kind in ("requests", "rfqs", "orders", "receipts", "invoices")
+    ] + [reverse("procurement_inbox"), reverse("procurement_deliveries")]
+    snapshots: list[list[int]] = []
+    for index in range(3):
+        purchase = setup.request(approved=True)
+        open_rfq(setup.actor, uuid4(), purchase.pk, (setup.supplier.pk, setup.other.pk))
+        setup.request()
+        order = setup.order()
+        receipt = setup.receipt(order, "1", batch=f"LIST-{index}")
+        record_invoice(
+            setup.actor,
+            uuid4(),
+            order.pk,
+            InvoiceData(
+                f"LIST-{index}",
+                setup.today,
+                "UZS",
+                Decimal(1),
+                setup.today,
+                (InvoiceLine(receipt.lines.get().pk, Decimal(1), Decimal(100)),),
+            ),
+        )
+        counts = []
+        for url in urls:
+            with CaptureQueriesContext(connection) as captured:
+                assert client.get(url).status_code == 200
+            counts.append(len(captured))
+        snapshots.append(counts)
+    assert snapshots[0] == snapshots[1] == snapshots[2]
+    assert snapshots[0][2] == 6
 
 
 @pytest.mark.django_db(transaction=True)
