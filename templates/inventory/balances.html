@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% include "inventory/navigation.html" %}
+<h1 class="text-2xl font-semibold">{% translate "Stock balances" %}</h1>
+<div class="my-3 flex flex-wrap gap-2">
+  {% if perms.inventory.receive_stock %}<a class="workspace-link" href="{% url 'stock_post' 'receive' %}">{% translate "Receive stock" %}</a>{% endif %}
+  {% if perms.inventory.issue_stock %}<a class="workspace-link" href="{% url 'stock_post' 'issue' %}">{% translate "Issue stock" %}</a>{% endif %}
+  {% if perms.inventory.transfer_stock %}<a class="workspace-link" href="{% url 'stock_post' 'transfer' %}">{% translate "Transfer stock" %}</a>{% endif %}
+  {% if perms.inventory.write_off_stock %}<a class="workspace-link" href="{% url 'stock_post' 'write-off' %}">{% translate "Write off stock" %}</a>{% endif %}
+  {% if perms.inventory.return_stock %}<a class="workspace-link" href="{% url 'stock_post' 'return' %}">{% translate "Return to supplier" %}</a>{% endif %}
+  {% if perms.inventory.import_opening %}<a class="workspace-link" href="{% url 'stock_import' 'opening' %}">{% translate "Import opening balances" %}</a>{% endif %}
+</div>
+<form class="login-form mb-4 flex flex-wrap items-end gap-3" method="get">
+  <label>{% translate "Search item or batch" %}<input type="search" name="q" value="{{ q }}"></label>
+  <label>{% translate "Warehouse" %}
+    <select class="min-h-11 rounded-lg border border-stone-500 bg-white px-2" name="warehouse">
+      <option value="">{% translate "All warehouses" %}</option>
+      {% for option in warehouses %}<option value="{{ option.code }}"{% if warehouse == option.code %} selected{% endif %}>{{ option }}</option>{% endfor %}
+    </select>
+  </label>
+  <button class="workspace-link">{% translate "Filter" %}</button>
+</form>
+<ul class="grid gap-3 sm:grid-cols-2">
+  {% for row in page %}
+  <li class="rounded-xl border border-stone-300 bg-white p-4">
+    <h2 class="font-semibold">{{ row.batch.item }}</h2>
+    <p>{{ row.location.warehouse }} / {{ row.location.code }}</p>
+    <p>{{ row.batch.number }} · {{ row.batch.get_quality_display }} · {{ row.batch.expiry|date:"SHORT_DATE_FORMAT"|default:"—" }}</p>
+    <p class="font-semibold">{{ row.quantity }} {{ row.batch.item.base_unit.code }}</p>
+    {% if perms.inventory.change_batch and row.batch.quality == 'quarantine' %}<a class="inline-flex min-h-11 items-center underline" href="{% url 'batch_quality' row.batch_id %}">{% translate "Change batch quality" %}</a>{% endif %}
+  </li>
+  {% empty %}<li>{% translate "No matching stock." %}</li>{% endfor %}
+</ul>
+{% include "workspace/pagination.html" %}
+{% endblock %}

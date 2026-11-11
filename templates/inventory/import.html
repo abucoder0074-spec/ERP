@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h1 class="text-2xl font-semibold">{% translate "Import CSV or Excel" %}</h1>
+<p class="mt-2">{% translate "Use a UTF-8 CSV or one Excel sheet with a header. Use ISO dates and a decimal point." %}</p>
+<p class="mt-2 break-words font-mono text-sm">{{ columns|join:", " }}</p>
+<p class="mt-2 break-words text-sm">{% translate "Required columns" %} · {{ required|join:", " }}</p>
+<form method="post" data-pending="{% translate 'Processing…' %}" enctype="multipart/form-data" class="login-form my-4 max-w-xl space-y-3">
+  {% csrf_token %}{{ form.as_p }}
+  <div class="flex flex-wrap gap-2">
+    <button class="workspace-link" name="action" value="preview">{% translate "Validate only" %}</button>
+    <button class="workspace-link" name="action" value="commit" data-confirm-button="{% translate 'Commit this import?' %}">{% translate "Commit import" %}</button>
+  </div>
+</form>
+{% if result %}
+<section class="rounded-xl border border-stone-300 bg-white p-4" role="status">
+  <p>{% translate "Rows checked" %} · {{ result.rows }}</p>
+  {% if result.committed %}<p>{% translate "Import committed." %}</p>
+  {% elif not result.errors %}<p>{% translate "Validation passed. Select the file again to commit." %}</p>
+  {% else %}
+    <p>{% translate "No rows were committed." %}</p>
+    <ul class="mt-2 space-y-2 text-red-900">
+    {% for error in result.errors %}<li>{% translate "Row" %} {{ error.row }} · {{ error.messages|join:" " }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

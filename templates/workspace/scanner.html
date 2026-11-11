@@ -1,0 +1,7 @@
+{% load i18n %}
+<div class="mt-4" data-scanner data-ready="{% translate 'Point the camera at the code.' %}" data-unavailable="{% translate 'Camera scanning is unavailable. Enter the code manually.' %}">
+  <button hidden type="button" class="min-h-11 rounded-lg border border-stone-500 px-3" data-scan>{% translate "Scan a code" %}</button>
+  <button hidden type="button" class="min-h-11 rounded-lg border border-stone-500 px-3" data-scan-stop>{% translate "Stop camera" %}</button>
+  <video hidden playsinline muted class="mt-2 max-h-64 w-full rounded-lg"></video>
+  <p role="status"></p>
+</div>

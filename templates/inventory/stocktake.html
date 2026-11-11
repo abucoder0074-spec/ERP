@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% include "inventory/navigation.html" %}
+<h1 class="text-2xl font-semibold">{% translate "Stocktake" %} · {{ sheet.location }}</h1>
+<p>{{ sheet.get_status_display }}</p>
+{% if errors %}<ul role="alert" class="my-3 rounded bg-red-50 p-3 text-red-900">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+<ul class="my-4 grid gap-3 sm:grid-cols-2">
+{% for line in page %}
+  <li class="rounded-xl border border-stone-300 bg-white p-4">
+    <h2 class="font-semibold">{{ line.batch.item }} · {{ line.batch.number }}</h2>
+    <p>{% translate "Count code" %} {{ line.batch.item.code }}:{{ line.batch.number }}</p>
+    <p>{% translate "Expected" %} {{ line.expected }} · {% translate "Counted quantity" %} {{ line.counted|default_if_none:"—" }} · {% translate "Variance" %} {{ line.variance|default_if_none:"—" }}</p>
+  </li>
+{% empty %}<li>{% translate "No batches on this sheet." %}</li>{% endfor %}
+</ul>
+{% include "workspace/pagination.html" %}
+{% if is_counter and sheet.status == 'counting' and perms.inventory.count_stocktake %}
+  {% include "workspace/scanner.html" %}
+  <form method="post" data-pending="{% translate 'Processing…' %}" class="login-form my-4 max-w-xl space-y-3">
+    {% csrf_token %}{{ form.as_p }}
+    <button class="workspace-link" name="action" value="count">{% translate "Save count" %}</button>
+  </form>
+{% endif %}
+<form method="post" data-pending="{% translate 'Processing…' %}" class="my-4 flex flex-wrap gap-3" data-confirm="{% translate 'Confirm this change?' %}">
+  {% csrf_token %}
+  {% if sheet.status == 'counting' and is_counter and perms.inventory.count_stocktake %}<button class="workspace-link" name="action" value="submitted">{% translate "Submit count" %}</button>{% endif %}
+  {% if sheet.status == 'submitted' and not is_counter and perms.inventory.approve_stocktake %}<button class="workspace-link" name="action" value="approved">{% translate "Approve count" %}</button>{% endif %}
+  {% if sheet.status == 'approved' and not is_counter and perms.inventory.approve_stocktake %}<button class="workspace-link" name="action" value="post">{% translate "Post adjustments" %}</button>{% endif %}
+  {% if sheet.status == 'counting' or sheet.status == 'submitted' or sheet.status == 'approved' %}
+    {% if is_counter and perms.inventory.count_stocktake or perms.inventory.approve_stocktake %}<button class="workspace-link" name="action" value="cancelled">{% translate "Cancel stocktake" %}</button>{% endif %}
+  {% endif %}
+</form>
+{% endblock %}

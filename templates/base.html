@@ -13,6 +13,7 @@
   <link rel="apple-touch-icon" href="{% static 'icon-192.png' %}">
   <script src="{% static 'htmx.min.js' %}" defer></script>
   <script src="{% static 'pwa.js' %}" defer></script>
+  <script src="{% static 'workspace.js' %}" defer></script>
 </head>
 <body class="min-h-screen bg-stone-100 text-stone-900 antialiased" hx-history="false">
   <a href="#main" class="sr-only focus:not-sr-only">{% translate "Skip to content" %}</a>
@@ -23,6 +24,8 @@
         <nav aria-label="{% translate 'Main navigation' %}" class="flex flex-wrap items-center gap-3">
           {% if show_workspace %}
             <a href="{% url 'home' %}" hx-boost="true" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Dashboard" %}</a>
+                    {% if perms.masterdata.view_item %}<a href="{% url 'catalog_index' %}" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Master data" %}</a>{% endif %}
+          {% if perms.inventory.view_stockbalance %}<a href="{% url 'stock_balances' %}" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Inventory" %}</a>{% endif %}
           {% endif %}
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}

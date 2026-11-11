@@ -1,5 +1,5 @@
 x-app: &app
-  image: muzqaymoq-erp:phase0
+  image: muzqaymoq-erp:phase1
   pull_policy: never
   env_file: .env
   user: "10001:10001"

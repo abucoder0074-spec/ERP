@@ -10,6 +10,7 @@ from apps.core.tests.test_views import ROLES
 def test_role_migration_preserves_grants_on_upgrade_and_rollback() -> None:
     latest = [("core", "0003_workspace_permission")]
     previous = [("core", "0002_workspace_roles")]
+    leaf_nodes = MigrationExecutor(connection).loader.graph.leaf_nodes()
     try:
         MigrationExecutor(connection).migrate([("core", None)])
         assert not Permission.objects.filter(codename="access_workspace").exists()
@@ -30,4 +31,4 @@ def test_role_migration_preserves_grants_on_upgrade_and_rollback() -> None:
         assert permission.content_type.model == "loginwindow"
         assert Group.objects.filter(permissions=permission).count() == len(ROLES)
     finally:
-        MigrationExecutor(connection).migrate(latest)
+        MigrationExecutor(connection).migrate(leaf_nodes)

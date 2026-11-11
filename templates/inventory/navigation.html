@@ -1,0 +1,8 @@
+{% load i18n %}
+<nav class="mb-4 flex flex-wrap gap-2" aria-label="{% translate 'Inventory' %}">
+  {% if perms.inventory.view_stockbalance %}<a class="workspace-link" href="{% url 'stock_balances' %}">{% translate "Stock balances" %}</a>{% endif %}
+  {% if perms.inventory.view_stockmovement %}<a class="workspace-link" href="{% url 'stock_movements' %}">{% translate "Movements" %}</a>{% endif %}
+  {% if perms.inventory.view_stocktake %}<a class="workspace-link" href="{% url 'stocktakes' %}">{% translate "Stocktakes" %}</a>{% endif %}
+  {% if perms.inventory.view_notification %}<a class="workspace-link" href="{% url 'stock_alerts' %}">{% translate "Alerts" %}</a>{% endif %}
+  {% if perms.inventory.view_auditlog %}<a class="workspace-link" href="{% url 'stock_audit' %}">{% translate "Audit history" %}</a>{% endif %}
+</nav>

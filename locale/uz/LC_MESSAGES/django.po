@@ -81,3 +81,588 @@ msgstr "Qo‘llash"
 
 msgid "Signed out"
 msgstr "Tizimdan chiqdingiz"
+
+msgid "A movement requires quantity and carrying value."
+msgstr "Harakat uchun miqdor va hisob qiymati kerak."
+
+msgid "A reason is required."
+msgstr "Sababni kiriting."
+
+msgid "Above maximum"
+msgstr "Maksimumdan yuqori"
+
+msgid "Active"
+msgstr "Faol"
+
+msgid "Add record"
+msgstr "Yozuv qo‘shish"
+
+msgid "After"
+msgstr "Keyin"
+
+msgid "Alerts"
+msgstr "Ogohlantirishlar"
+
+msgid "All records"
+msgstr "Barcha yozuvlar"
+
+msgid "All stock alerts"
+msgstr "Barcha zaxira ogohlantirishlari"
+
+msgid "All warehouses"
+msgstr "Barcha omborlar"
+
+msgid "Alternative unit"
+msgstr "Muqobil o‘lchov birligi"
+
+msgid "An approved stocktake and a different posting user are required."
+msgstr "Tasdiqlangan sanoqni uni bajarmagan foydalanuvchi o‘tkazishi kerak."
+
+msgid "Approve count"
+msgstr "Sanoqni tasdiqlash"
+
+msgid "Approved"
+msgstr "Tasdiqlangan"
+
+msgid "Archived"
+msgstr "Arxivlangan"
+
+msgid "Audit history"
+msgstr "Audit tarixi"
+
+msgid "Barcode or QR code"
+msgstr "Shtrix-kod yoki QR-kod"
+
+msgid "Base unit"
+msgstr "Asosiy o‘lchov birligi"
+
+msgid "Base units per alternative unit"
+msgstr "Bitta muqobil birlikdagi asosiy birliklar soni"
+
+msgid "Batch number"
+msgstr "Partiya raqami"
+
+msgid "Batch number or QR code"
+msgstr "Partiya raqami yoki QR-kod"
+
+msgid "Before"
+msgstr "Oldin"
+
+msgid "Below minimum"
+msgstr "Minimumdan past"
+
+msgid "CSV or Excel file"
+msgstr "CSV yoki Excel fayli"
+
+msgid "Camera scanning is unavailable. Enter the code manually."
+msgstr "Kamera orqali skanerlash imkonsiz. Kodni qo‘lda kiriting."
+
+msgid "Cancel stocktake"
+msgstr "Sanoqni bekor qilish"
+
+msgid "Cancelled"
+msgstr "Bekor qilingan"
+
+msgid "Categories"
+msgstr "Toifalar"
+
+msgid "Category"
+msgstr "Toifa"
+
+msgid "Category type"
+msgstr "Toifa turi"
+
+msgid "Change batch quality"
+msgstr "Partiya sifat holatini o‘zgartirish"
+
+msgid "Check referenced codes, amounts and dates."
+msgstr "Kodlar, miqdorlar va sanalarni tekshiring."
+
+msgid "Chilled"
+msgstr "Sovitilgan"
+
+msgid "Choose a CSV or XLSX file."
+msgstr "CSV yoki XLSX faylini tanlang."
+
+msgid "Choose a valid item and different locations."
+msgstr "Mavjud mahsulot va ikki xil joyni tanlang."
+
+msgid "Choose an active location."
+msgstr "Faol joyni tanlang."
+
+msgid "Choose an original posting to reverse."
+msgstr "Bekor qilish uchun dastlabki operatsiyani tanlang."
+
+msgid "Code"
+msgstr "Kod"
+
+msgid "Commit import"
+msgstr "Importni saqlash"
+
+msgid "Commit this import?"
+msgstr "Import saqlansinmi?"
+
+msgid "Confirm this change?"
+msgstr "O‘zgarish tasdiqlansinmi?"
+
+msgid "Consumable"
+msgstr "Sarf materiali"
+
+msgid "Count code"
+msgstr "Sanoq kodi"
+
+msgid "Counted quantity"
+msgstr "Sanalgan miqdor"
+
+msgid "Counting"
+msgstr "Sanash jarayonida"
+
+msgid "Counts cannot be negative."
+msgstr "Sanalgan miqdor manfiy bo‘lmaydi."
+
+msgid "Destination location"
+msgstr "Qabul qiluvchi joy"
+
+msgid "Dry"
+msgstr "Quruq"
+
+msgid "Duplicate code or barcode in this file."
+msgstr "Faylda kod yoki shtrix-kod takrorlangan."
+
+msgid "Edit record"
+msgstr "Yozuvni tahrirlash"
+
+msgid "English name"
+msgstr "Inglizcha nomi"
+
+msgid "Enter a batch number or item code followed by a colon and batch number."
+msgstr "Partiya raqamini yoki mahsulot kodi:partiya raqami shaklida kiriting."
+
+msgid "Enter a batch, receipt reference and nonnegative cost."
+msgstr "Partiya, kirim hujjati va manfiy bo‘lmagan tannarxni kiriting."
+
+msgid "Enter an unambiguous active item code or barcode."
+msgstr "Faol mahsulotning aniq kodi yoki shtrix-kodini kiriting."
+
+msgid "Enter every count before posting."
+msgstr "O‘tkazishdan oldin barcha sanoq miqdorlarini kiriting."
+
+msgid "Enter every count before submitting."
+msgstr "Yuborishdan oldin barcha sanoq miqdorlarini kiriting."
+
+msgid "Expected"
+msgstr "Hisobdagi miqdor"
+
+msgid "Expired stock"
+msgstr "Muddati o‘tgan zaxira"
+
+msgid "Expiring soon"
+msgstr "Muddati yaqin"
+
+msgid "Expiry date"
+msgstr "Yaroqlilik muddati"
+
+msgid "Filter"
+msgstr "Saralash"
+
+msgid "Frozen"
+msgstr "Muzlatilgan"
+
+msgid "Import CSV or Excel"
+msgstr "CSV yoki Excel importi"
+
+msgid "Import committed."
+msgstr "Import saqlandi."
+
+msgid "Import opening balances"
+msgstr "Boshlang‘ich qoldiqlarni import qilish"
+
+msgid "Insufficient eligible stock."
+msgstr "Berishga yaroqli zaxira yetarli emas."
+
+msgid "Insufficient stock or carrying value."
+msgstr "Zaxira yoki hisob qiymati yetarli emas."
+
+msgid "Insufficient stock."
+msgstr "Zaxira yetarli emas."
+
+msgid "Invalid stocktake transition."
+msgstr "Sanoq holatini bunday o‘zgartirib bo‘lmaydi."
+
+msgid "Inventory"
+msgstr "Ombor hisobi"
+
+msgid "Issue"
+msgstr "Chiqim"
+
+msgid "Issue stock"
+msgstr "Ombordan berish"
+
+msgid "Item"
+msgstr "Mahsulot"
+
+msgid "Item code or barcode"
+msgstr "Mahsulot kodi yoki shtrix-kodi"
+
+msgid "Items"
+msgstr "Mahsulotlar"
+
+msgid "Lead time in days"
+msgstr "Yetkazib berish muddati, kun"
+
+msgid "Location"
+msgstr "Joy"
+
+msgid "Locations"
+msgstr "Joylar"
+
+msgid "Master data"
+msgstr "Ma’lumotnomalar"
+
+msgid "Maximum stock"
+msgstr "Maksimal zaxira"
+
+msgid "Maximum temperature"
+msgstr "Maksimal harorat"
+
+msgid "Minimum stock"
+msgstr "Minimal zaxira"
+
+msgid "Minimum temperature"
+msgstr "Minimal harorat"
+
+msgid "Move or write off remaining stock before archiving this item."
+msgstr "Mahsulotni arxivlashdan oldin qolgan zaxirani ko‘chiring yoki hisobdan chiqaring."
+
+msgid "Move remaining stock before archiving this location."
+msgstr "Joyni arxivlashdan oldin qolgan zaxirani ko‘chiring."
+
+msgid "Move remaining stock before archiving this warehouse."
+msgstr "Omborni arxivlashdan oldin qolgan zaxirani ko‘chiring."
+
+msgid "Movements"
+msgstr "Ombor harakatlari"
+
+msgid "Name"
+msgstr "Nomi"
+
+msgid "Next"
+msgstr "Keyingi"
+
+msgid "No active conversion for this unit."
+msgstr "Bu birlik uchun faol o‘girish koeffitsiyenti yo‘q."
+
+msgid "No audit events found."
+msgstr "Audit yozuvlari topilmadi."
+
+msgid "No batches on this sheet."
+msgstr "Bu sanoq varag‘ida partiyalar yo‘q."
+
+msgid "No matching records."
+msgstr "Mos yozuvlar topilmadi."
+
+msgid "No matching stock."
+msgstr "Mos zaxira topilmadi."
+
+msgid "No movements found."
+msgstr "Ombor harakatlari topilmadi."
+
+msgid "No open stock alerts."
+msgstr "Faol zaxira ogohlantirishlari yo‘q."
+
+msgid "No rows were committed."
+msgstr "Hech bir qator saqlanmadi."
+
+msgid "No stocktakes found."
+msgstr "Sanoq varaqalari topilmadi."
+
+msgid "Number exceeds the supported precision or range."
+msgstr "Son ruxsat etilgan aniqlik yoki oraliqdan tashqarida."
+
+msgid "Only quarantined batches can change quality status."
+msgstr "Faqat karantindagi partiyalarning sifat holati o‘zgartiriladi."
+
+msgid "Only quarantined batches can accept further receipts."
+msgstr "Qo‘shimcha kirim faqat karantindagi partiyaga kiritiladi."
+
+msgid "Packaging"
+msgstr "Qadoqlash"
+
+msgid "Pages"
+msgstr "Sahifalar"
+
+msgid "Point the camera at the code."
+msgstr "Kamerani kodga qarating."
+
+msgid "Post adjustments"
+msgstr "Tuzatishlarni o‘tkazish"
+
+msgid "Posted"
+msgstr "O‘tkazilgan"
+
+msgid "Previous"
+msgstr "Oldingi"
+
+msgid "Quality status"
+msgstr "Sifat holati"
+
+msgid "Quantity"
+msgstr "Miqdor"
+
+msgid "Quantity must be positive."
+msgstr "Miqdor musbat bo‘lishi kerak."
+
+msgid "Quarantine"
+msgstr "Karantin"
+
+msgid "Raw material"
+msgstr "Xomashyo"
+
+msgid "Reason"
+msgstr "Sabab"
+
+msgid "Receipt"
+msgstr "Kirim"
+
+msgid "Receipt reference"
+msgstr "Kirim hujjati raqami"
+
+msgid "Receive stock"
+msgstr "Omborga qabul qilish"
+
+msgid "Rejected"
+msgstr "Rad etilgan"
+
+msgid "Reorder quantity"
+msgstr "Qayta buyurtma miqdori"
+
+msgid "Required columns"
+msgstr "Majburiy ustunlar"
+
+msgid "Return to supplier"
+msgstr "Yetkazib beruvchiga qaytarish"
+
+msgid "Reversal"
+msgstr "Teskari harakat"
+
+msgid "Reverse posting"
+msgstr "Operatsiyani teskari o‘tkazish"
+
+msgid "Row"
+msgstr "Qator"
+
+msgid "Rows checked"
+msgstr "Tekshirilgan qatorlar"
+
+msgid "Russian name"
+msgstr "Ruscha nomi"
+
+msgid "Save"
+msgstr "Saqlash"
+
+msgid "Save count"
+msgstr "Sanoqni saqlash"
+
+msgid "Scan a code"
+msgstr "Kodni skanerlash"
+
+msgid "Search"
+msgstr "Qidirish"
+
+msgid "Search item or batch"
+msgstr "Mahsulot yoki partiyani qidirish"
+
+msgid "Search item, batch or reference"
+msgstr "Mahsulot, partiya yoki hujjatni qidirish"
+
+msgid "Select a batch to return to its supplier."
+msgstr "Yetkazib beruvchiga qaytariladigan partiyani tanlang."
+
+msgid "Shelf life in days"
+msgstr "Yaroqlilik muddati, kun"
+
+msgid "Spare part"
+msgstr "Ehtiyot qism"
+
+msgid "Start stocktake"
+msgstr "Sanoqni boshlash"
+
+msgid "Status"
+msgstr "Holati"
+
+msgid "Stock alerts"
+msgstr "Zaxira ogohlantirishlari"
+
+msgid "Stock balances"
+msgstr "Ombor qoldiqlari"
+
+msgid "Stock moved after the snapshot. Start a new count."
+msgstr "Sanoq boshlanganidan keyin zaxira o‘zgardi. Yangi sanoq boshlang."
+
+msgid "Stock movements are immutable."
+msgstr "Ombor harakatlarini o‘zgartirib yoki o‘chirib bo‘lmaydi."
+
+msgid "Stocktake"
+msgstr "Ombor sanog‘i"
+
+msgid "Stocktake adjustment"
+msgstr "Sanoq bo‘yicha tuzatish"
+
+msgid "Stocktakes"
+msgstr "Ombor sanoqlari"
+
+msgid "Stop camera"
+msgstr "Kamerani to‘xtatish"
+
+msgid "Storage condition"
+msgstr "Saqlash sharoiti"
+
+msgid "Storage condition and base unit are fixed after stock is posted."
+msgstr "Birinchi harakatdan keyin saqlash sharoiti va asosiy birlik o‘zgarmaydi."
+
+msgid "Submit count"
+msgstr "Sanoqni yuborish"
+
+msgid "Submitted"
+msgstr "Yuborilgan"
+
+msgid "Supplier"
+msgstr "Yetkazib beruvchi"
+
+msgid "Supplier return"
+msgstr "Yetkazib beruvchiga qaytarish"
+
+msgid "Suppliers"
+msgstr "Yetkazib beruvchilar"
+
+msgid "TIN"
+msgstr "STIR"
+
+msgid "The Excel file expands beyond the supported size."
+msgstr "Ochilgan Excel fayli ruxsat etilgan hajmdan oshadi."
+
+msgid "The alternative unit must differ from the base unit."
+msgstr "Muqobil birlik asosiy birlikdan farq qilishi kerak."
+
+msgid "The batch has no receipt cost."
+msgstr "Partiyaning kirim tannarxi yo‘q."
+
+msgid "The file contains no data rows."
+msgstr "Faylda ma’lumot qatorlari yo‘q."
+
+msgid "The file has no header."
+msgstr "Faylda sarlavha qatori yo‘q."
+
+msgid "The file has too many columns."
+msgstr "Faylda ustunlar soni ortiqcha."
+
+msgid "The header contains missing, duplicate or unknown columns."
+msgstr "Sarlavhada yetishmayotgan, takroriy yoki noma’lum ustunlar bor."
+
+msgid "The import file could not be read."
+msgstr "Import faylini o‘qib bo‘lmadi."
+
+msgid "The import supports up to 500 rows."
+msgstr "Import 500 tagacha qatorni qabul qiladi."
+
+msgid "The item and location storage conditions differ."
+msgstr "Mahsulot va joyning saqlash sharoitlari mos emas."
+
+msgid "The reason is too long."
+msgstr "Sabab matni juda uzun."
+
+msgid "The record conflicts with an existing record."
+msgstr "Yozuv mavjud yozuvga zid."
+
+msgid "This batch number already has different receipt details."
+msgstr "Bu partiya raqamining kirim ma’lumotlari boshqacha."
+
+msgid "This correction would leave carrying value without stock."
+msgstr "Bu tuzatishdan keyin zaxirasiz hisob qiymati qoladi."
+
+msgid "This posting has already been reversed."
+msgstr "Bu operatsiya avval teskari o‘tkazilgan."
+
+msgid "This posting key is already used for a different request."
+msgstr "Bu operatsiya kaliti boshqa so‘rov uchun ishlatilgan."
+
+msgid "This sheet is no longer accepting counts."
+msgstr "Bu sanoq varag‘i endi miqdor qabul qilmaydi."
+
+msgid "Transfer in"
+msgstr "Ko‘chirish kirimi"
+
+msgid "Transfer out"
+msgstr "Ko‘chirish chiqimi"
+
+msgid "Transfer stock"
+msgstr "Zaxirani ko‘chirish"
+
+msgid "Unexpected columns or formulas are not supported."
+msgstr "Kutilmagan ustunlar yoki formulalar qabul qilinmaydi."
+
+msgid "Unit conversions"
+msgstr "Birliklarni o‘girish"
+
+msgid "Unit cost in UZS per base unit"
+msgstr "Asosiy birlik tannarxi, so‘m"
+
+msgid "Units"
+msgstr "O‘lchov birliklari"
+
+msgid "Unknown item or location."
+msgstr "Mahsulot yoki joy topilmadi."
+
+msgid "Upload a nonempty file up to 2 MB."
+msgstr "Hajmi 2 MB dan oshmaydigan bo‘sh bo‘lmagan fayl yuklang."
+
+msgid "Use a UTF-8 CSV or one Excel sheet with a header. Use ISO dates and a decimal point."
+msgstr "UTF-8 CSV yoki sarlavhali bitta Excel varag‘idan foydalaning. Sanalarni ISO shaklida, kasrni nuqta bilan kiriting."
+
+msgid "Use an Excel workbook with one sheet."
+msgstr "Bitta varaqli Excel faylidan foydalaning."
+
+msgid "Use an active category and base unit."
+msgstr "Faol toifa va asosiy birlikni tanlang."
+
+msgid "Use an active item and unit."
+msgstr "Faol mahsulot va birlikni tanlang."
+
+msgid "Use an active item, warehouse and location."
+msgstr "Faol mahsulot, ombor va joyni tanlang."
+
+msgid "Use an active supplier."
+msgstr "Faol yetkazib beruvchini tanlang."
+
+msgid "Use an active warehouse."
+msgstr "Faol omborni tanlang."
+
+msgid "Uzbek name"
+msgstr "O‘zbekcha nomi"
+
+msgid "Validate only"
+msgstr "Faqat tekshirish"
+
+msgid "Validation passed. Select the file again to commit."
+msgstr "Tekshiruvdan o‘tdi. Saqlash uchun faylni qayta tanlang."
+
+msgid "Variance"
+msgstr "Tafovut"
+
+msgid "Warehouse"
+msgstr "Ombor"
+
+msgid "Warehouse and storage condition are fixed after stock is posted."
+msgstr "Birinchi harakatdan keyin ombor va saqlash sharoiti o‘zgarmaydi."
+
+msgid "Warehouses"
+msgstr "Omborlar"
+
+msgid "Write off stock"
+msgstr "Zaxirani hisobdan chiqarish"
+
+msgid "Write-off"
+msgstr "Hisobdan chiqarish"
+
+msgid "Processing…"
+msgstr "Bajarilmoqda…"

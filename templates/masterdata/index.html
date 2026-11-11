@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h1 class="mb-4 text-2xl font-semibold">{% translate "Master data" %}</h1>
+<ul class="grid gap-3 sm:grid-cols-2">
+  {% if perms.masterdata.view_item %}<li><a class="workspace-link" href="{% url 'catalog_list' 'items' %}">{% translate "Items" %}</a></li>{% endif %}
+  {% if perms.masterdata.view_itemcategory %}<li><a class="workspace-link" href="{% url 'catalog_list' 'categories' %}">{% translate "Categories" %}</a></li>{% endif %}
+  {% if perms.masterdata.view_unitofmeasure %}<li><a class="workspace-link" href="{% url 'catalog_list' 'units' %}">{% translate "Units" %}</a></li>{% endif %}
+  {% if perms.masterdata.view_uomconversion %}<li><a class="workspace-link" href="{% url 'catalog_list' 'conversions' %}">{% translate "Unit conversions" %}</a></li>{% endif %}
+  {% if perms.masterdata.view_warehouse %}<li><a class="workspace-link" href="{% url 'catalog_list' 'warehouses' %}">{% translate "Warehouses" %}</a></li>{% endif %}
+  {% if perms.masterdata.view_location %}<li><a class="workspace-link" href="{% url 'catalog_list' 'locations' %}">{% translate "Locations" %}</a></li>{% endif %}
+  {% if perms.masterdata.view_supplier %}<li><a class="workspace-link" href="{% url 'catalog_list' 'suppliers' %}">{% translate "Suppliers" %}</a></li>{% endif %}
+</ul>
+{% endblock %}

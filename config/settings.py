@@ -1,3 +1,4 @@
+from decimal import Decimal
 from os import environ
 from pathlib import Path
 
@@ -28,6 +29,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "apps.core",
+    "apps.masterdata",
+    "apps.inventory",
 ]
 MIDDLEWARE = [
     "apps.core.middleware.RequestContextMiddleware",
@@ -48,7 +51,10 @@ TEMPLATES = [
         "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
-            "context_processors": ["django.template.context_processors.request"],
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+            ],
         },
     },
 ]
@@ -115,6 +121,12 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
 DATA_UPLOAD_MAX_MEMORY_SIZE = 64 * 1024
+DATA_UPLOAD_MAX_NUMBER_FILES = 1
+FILE_UPLOAD_HANDLERS = [
+    "apps.inventory.uploads.BoundedUploadHandler",
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
 VAT_RATE_PERCENT = vat_rate()
 LOGIN_ATTEMPTS = integer("LOGIN_ATTEMPTS", 10, 1, 100)
 LOGIN_WINDOW_SECONDS = integer("LOGIN_WINDOW_SECONDS", 900, 10, 3600)
@@ -129,5 +141,14 @@ LOGGING = {
     "loggers": {
         "erp.request": {"handlers": ["console"], "level": "INFO", "propagate": False},
         "django": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+    },
+}
+
+WRITE_OFF_LIMIT_UZS = Decimal(integer("WRITE_OFF_LIMIT_UZS", 100000, 0, 1000000000))
+STOCK_EXPIRY_WARNING_DAYS = integer("STOCK_EXPIRY_WARNING_DAYS", 7, 1, 365)
+CELERY_BEAT_SCHEDULE = {
+    "refresh-stock-alerts": {
+        "task": "apps.inventory.tasks.refresh_stock_alerts",
+        "schedule": 300,
     },
 }

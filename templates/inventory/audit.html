@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% include "inventory/navigation.html" %}
+<h1 class="mb-4 text-2xl font-semibold">{% translate "Audit history" %}</h1>
+<ul class="space-y-3">
+{% for event in page %}
+  <li class="break-words rounded-xl border border-stone-300 bg-white p-4">
+    <p class="font-semibold">{{ event.action }} · {{ event.subject }}</p>
+    <p>{{ event.created_at|date:"SHORT_DATETIME_FORMAT" }} · {{ event.actor.get_username }}</p>
+    <dl><dt>{% translate "Before" %}</dt><dd>{{ event.before }}</dd><dt>{% translate "After" %}</dt><dd>{{ event.after }}</dd></dl>
+  </li>
+{% empty %}<li>{% translate "No audit events found." %}</li>{% endfor %}
+</ul>
+{% include "workspace/pagination.html" %}
+{% endblock %}

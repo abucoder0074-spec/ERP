@@ -9,3 +9,5 @@ django-stubs[compatible-mypy]==5.2.9
 djangorestframework-stubs==3.16.8
 pre-commit==4.5.1
 celery-types==0.26.0
+types-openpyxl==3.1.5.20261017
+types-defusedxml==0.7.0.20260504

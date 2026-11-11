@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% include "inventory/navigation.html" %}
+<div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+  <h1 class="text-2xl font-semibold">{% translate "Stocktakes" %}</h1>
+  {% if perms.inventory.count_stocktake %}<a class="workspace-link" href="{% url 'stocktake_new' %}">{% translate "Start stocktake" %}</a>{% endif %}
+</div>
+<ul class="grid gap-2 sm:grid-cols-2">
+{% for sheet in page %}
+  <li><a class="workspace-link w-full" href="{% url 'stocktake_detail' sheet.pk %}">{{ sheet.location }} · {{ sheet.get_status_display }} · {{ sheet.created_at|date:"SHORT_DATE_FORMAT" }}</a></li>
+{% empty %}<li>{% translate "No stocktakes found." %}</li>{% endfor %}
+</ul>
+{% include "workspace/pagination.html" %}
+{% endblock %}

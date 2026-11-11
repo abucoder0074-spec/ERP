@@ -81,7 +81,7 @@ def test_dashboard_permission_query_count(client: Client) -> None:
     client.force_login(user)
     with CaptureQueriesContext(connection) as queries:
         assert client.get("/").status_code == 200
-    assert len(queries) == 4
+    assert len(queries) == 5
 
 
 @pytest.mark.parametrize("path", ["/login/", "/logout/", "/language/"])

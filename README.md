@@ -1,6 +1,6 @@
 # Muzqaymoq ERP
 
-Procurement and warehouse ERP for Muzqaymoq. Phase 0 provides the Uzbek workspace shell, sign-in, role grants, and readiness checks.
+Procurement and warehouse ERP for Muzqaymoq. Phase 1 adds the catalog, warehouse ledger, FEFO issues, stocktakes, alerts and file imports to the Uzbek workspace.
 
 ## Start locally
 
@@ -8,12 +8,12 @@ With Docker Compose and Python 3.12 installed, generate the local environment an
 
 ```sh
 python scripts/init_env.py
-docker compose up -d --wait
+docker compose up -d --build --wait
 docker compose ps
 docker compose exec web python manage.py createsuperuser
 ```
 
-Open [the ERP workspace](http://localhost:8000/) and sign in. The dashboard starts empty. Use [readiness](http://localhost:8000/health/) to check PostgreSQL and Redis. To stop the stack while retaining database volumes, run `docker compose down`.
+Open [the ERP workspace](http://localhost:8000/) and sign in. Open the catalog and inventory from the dashboard navigation. The dashboard shows open stock alerts. Use [readiness](http://localhost:8000/health/) to check PostgreSQL and Redis. To stop the stack while retaining database volumes, run `docker compose down`.
 
 The initial superuser is for bootstrapping. For routine access, provision a regular Django user and assign one of the [ERP role groups](docs/roles.md). The migrations create the groups and grants.
 
@@ -44,4 +44,15 @@ The readiness endpoint returns only `{"status": "ok"}` or `{"status": "unavailab
 
 The default VAT percentage is `12.00`, configurable via `VAT_RATE_PERCENT`. The Uzbekistan Tax Committee identifies 12% as the standard rate and describes a separate simplified regime for eligible businesses. [Uzbekistan Tax Committee](https://gov.uz/ru/soliq/news/view/182190).
 
-See [the ERD](docs/erd.md), [known gaps](docs/known-gaps.md), and [Phase 0 verification report](docs/phase-0.md).
+For a disposable development database, run:
+
+```sh
+docker compose exec web python manage.py seed_demo
+docker compose exec web python manage.py reconcile_stock
+```
+
+The demo creates milk, sugar, cups and wafer cones, three suppliers and five batches. Receive a lot into a location with matching storage, then have a manager approve it before issuing it. For stocktakes, use separate accounts for counting and approval. Browser scanning requires HTTPS or localhost. The same forms accept manual codes.
+
+Catalog and opening-stock imports accept UTF-8 CSV and single-sheet XLSX files. The import screen lists required headers. Use ISO dates (`YYYY-MM-DD`) and a decimal point. Preview the file to see row errors, then select it again to commit. Imports limit files to 2 MiB and 500 rows. Opening stock quantities and prices are in base units and UZS.
+
+See [the ERD](docs/erd.md), [known gaps](docs/known-gaps.md), and the [Phase 1 report](docs/phase-1.md).

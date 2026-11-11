@@ -10,6 +10,7 @@ from redis.exceptions import RedisError
 
 from apps.core.forms import WorkspaceAuthenticationForm
 from apps.core.services.login import LoginUnavailable, login_attempt, login_redis
+from apps.inventory.models import Notification
 
 
 class WorkspaceLoginView(LoginView):
@@ -40,7 +41,15 @@ class WorkspaceLoginView(LoginView):
 @login_required
 @permission_required("core.access_workspace", raise_exception=True)
 def home(request: HttpRequest) -> HttpResponse:
-    return render(request, "home.html", {"show_workspace": True, "show_language": True})
+    context: dict[str, object] = {"show_workspace": True, "show_language": True}
+    if request.user.has_perm("inventory.view_notification"):
+        context["alerts"] = list(
+            Notification.objects.filter(resolved_at__isnull=True).select_related("item", "batch")[
+                :5
+            ]
+        )
+        context["show_alerts"] = True
+    return render(request, "home.html", context)
 
 
 @never_cache

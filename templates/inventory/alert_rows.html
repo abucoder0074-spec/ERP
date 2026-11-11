@@ -1,0 +1,6 @@
+{% load i18n %}
+<ul class="space-y-2">
+{% for alert in alerts %}
+  <li class="rounded-lg border border-stone-300 bg-white p-3"><strong>{{ alert.get_kind_display }}</strong> · {{ alert.item }}{% if alert.batch %} · {{ alert.batch.number }}{% endif %}</li>
+{% empty %}<li>{% translate "No open stock alerts." %}</li>{% endfor %}
+</ul>

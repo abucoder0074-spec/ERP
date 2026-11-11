@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="flex flex-wrap items-center justify-between gap-3">
+  <h1 class="text-2xl font-semibold">{{ title }}</h1>
+  {% if can_add %}<a class="workspace-link" href="{% url 'catalog_create' slug %}">{% translate "Add record" %}</a>{% endif %}
+</div>
+{% if can_add and slug == 'items' or can_add and slug == 'suppliers' %}
+  <a class="workspace-link mt-3" href="{% url 'stock_import' slug %}">{% translate "Import CSV or Excel" %}</a>
+{% endif %}
+<form method="get" class="login-form my-4 flex flex-wrap items-end gap-3">
+  <label>{% translate "Search" %}<input type="search" name="q" value="{{ q }}"></label>
+  <label>{% translate "Status" %}
+    <select class="min-h-11 rounded-lg border border-stone-500 bg-white px-2" name="active">
+      <option value="yes"{% if active == 'yes' %} selected{% endif %}>{% translate "Active" %}</option>
+      <option value="no"{% if active == 'no' %} selected{% endif %}>{% translate "Archived" %}</option>
+      <option value="all"{% if active == 'all' %} selected{% endif %}>{% translate "All records" %}</option>
+    </select>
+  </label>
+  <button class="workspace-link">{% translate "Filter" %}</button>
+</form>
+<ul class="grid gap-2 sm:grid-cols-2">
+  {% for record in page %}
+    <li><a class="workspace-link w-full" href="{% url 'catalog_detail' slug record.pk %}">{{ record }}{% if not record.active %} · {% translate "Archived" %}{% endif %}</a></li>
+  {% empty %}<li>{% translate "No matching records." %}</li>{% endfor %}
+</ul>
+{% include "workspace/pagination.html" %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% include "inventory/navigation.html" %}
+<h1 class="mb-4 text-2xl font-semibold">{% translate "Alerts" %}</h1>
+{% include "inventory/alert_rows.html" with alerts=page %}
+{% include "workspace/pagination.html" %}
+{% endblock %}
