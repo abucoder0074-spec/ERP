@@ -27,7 +27,7 @@ services:
     healthcheck:
       test: ["CMD", "python", "-m", "scripts.health_probe", "web"]
       interval: 10s
-      timeout: 6s
+      timeout: 12s
       start_period: 30s
       retries: 5
   worker:
@@ -36,8 +36,8 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "celery -A config.celery inspect -d erp@$$HOSTNAME -t 3 ping"]
       interval: 20s
-      timeout: 8s
-      start_period: 15s
+      timeout: 20s
+      start_period: 40s
       retries: 5
   beat:
     <<: *app
@@ -45,7 +45,7 @@ services:
     healthcheck:
       test: ["CMD", "python", "-m", "scripts.health_probe", "beat"]
       interval: 20s
-      timeout: 5s
+      timeout: 12s
       retries: 5
   bot:
     <<: *app
@@ -53,7 +53,7 @@ services:
     healthcheck:
       test: ["CMD", "python", "-m", "scripts.health_probe", "bot"]
       interval: 20s
-      timeout: 5s
+      timeout: 12s
       retries: 5
   db:
     image: postgres:16.15-bookworm
