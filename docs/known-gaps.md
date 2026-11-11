@@ -6,7 +6,7 @@
 
 ## Scheduled scope
 
-- `seed_demo` includes the Phase 1 catalog and stock. Recipes, sample debts and the full cross-module dataset are scheduled for later phases.
+- `seed_demo` includes the Phase 1 catalog and stock and a Phase 2 procurement example with a mismatched invoice. Recipes, sample debts and the full cross-module dataset are scheduled for later phases.
 - The bot process is a Phase 0 service probe. Telegram linking, approvals and notifications are scheduled for Phase 5.
 - The PWA caches its public offline screen. Offline business read views depend on the modules that introduce the data.
 - The ERP catalog includes Uzbek and uses English source strings as fallback. Russian ERP translations are pending.
