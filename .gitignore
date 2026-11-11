@@ -1,0 +1,16 @@
+.env
+.venv/
+.uv-cache/
+.uv-python/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage*
+staticfiles/
+db.sqlite3
+node_modules/
+.phase0-tools/
+/static/app.css
+/static/htmx.min.js
+/locale/*/LC_MESSAGES/*.mo

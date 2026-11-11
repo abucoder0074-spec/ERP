@@ -1,0 +1,40 @@
+{% load i18n static %}
+{% get_current_language as current_language %}
+<!doctype html>
+<html lang="{{ current_language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152821">
+  <meta name="htmx-config" content='{"allowEval":false,"allowScriptTags":false,"historyEnabled":false,"includeIndicatorStyles":false}'>
+  <title>{% block title %}Muzqaymoq ERP{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+  <link rel="manifest" href="{% url 'manifest' %}">
+  <link rel="apple-touch-icon" href="{% static 'icon-192.png' %}">
+  <script src="{% static 'htmx.min.js' %}" defer></script>
+  <script src="{% static 'pwa.js' %}" defer></script>
+</head>
+<body class="min-h-screen bg-stone-100 text-stone-900 antialiased" hx-history="false">
+  <a href="#main" class="sr-only focus:not-sr-only">{% translate "Skip to content" %}</a>
+  <header class="bg-[#152821] text-white">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-6">
+      <span class="font-semibold">Muzqaymoq ERP</span>
+      {% if show_workspace or show_logout %}
+        <nav aria-label="{% translate 'Main navigation' %}" class="flex flex-wrap items-center gap-3">
+          {% if show_workspace %}
+            <a href="{% url 'home' %}" hx-boost="true" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Dashboard" %}</a>
+          {% endif %}
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="min-h-11 rounded-lg border border-stone-400 px-3 hover:bg-white/15">{% translate "Sign out" %}</button>
+          </form>
+        </nav>
+      {% endif %}
+    </div>
+  </header>
+  <main id="main" tabindex="-1" class="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+    {% block content %}{% endblock %}
+  </main>
+{% if show_language %}{% include "language.html" %}{% endif %}
+</body>
+</html>

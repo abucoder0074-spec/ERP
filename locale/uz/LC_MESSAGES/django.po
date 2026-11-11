@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Muzqaymoq ERP\n"
+"Language: uz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Skip to content"
+msgstr "Asosiy mazmunga o‘tish"
+
+msgid "Main navigation"
+msgstr "Asosiy menyu"
+
+msgid "Dashboard"
+msgstr "Bosh sahifa"
+
+msgid "Sign out"
+msgstr "Chiqish"
+
+msgid "There is no dashboard data yet."
+msgstr "Hozircha bosh sahifada ma’lumot yo‘q."
+
+msgid "Sign in"
+msgstr "Kirish"
+
+msgid "Sign-in failed. Check your credentials."
+msgstr "Kirish muvaffaqiyatsiz. Login va parolni tekshiring."
+
+msgid "Username"
+msgstr "Login"
+
+msgid "Password"
+msgstr "Parol"
+
+msgid "Access denied"
+msgstr "Kirish taqiqlangan"
+
+msgid "You do not have permission to open this page."
+msgstr "Bu sahifani ochishga ruxsatingiz yo‘q."
+
+msgid "Page not found"
+msgstr "Sahifa topilmadi"
+
+msgid "Check the address and try again."
+msgstr "Manzilni tekshiring va qayta urinib ko‘ring."
+
+msgid "Try again later"
+msgstr "Keyinroq qayta urinib ko‘ring"
+
+msgid "Too many sign-in attempts. Wait before trying again."
+msgstr "Kirishga urinishlar soni oshib ketdi. Biroz kutib, qayta urinib ko‘ring."
+
+msgid "Something went wrong"
+msgstr "Xatolik yuz berdi"
+
+msgid "Try again in a moment."
+msgstr "Birozdan keyin qayta urinib ko‘ring."
+
+msgid "Return to dashboard"
+msgstr "Bosh sahifaga qaytish"
+
+msgid "Temporarily unavailable"
+msgstr "Vaqtincha ishlamayapti"
+
+msgid "Offline"
+msgstr "Internetga ulanmagan"
+
+msgid "Reconnect to open the workspace."
+msgstr "Tizimni ochish uchun internetga qayta ulaning."
+
+msgid "Try again"
+msgstr "Qayta urinib ko‘rish"
+
+msgid "Language"
+msgstr "Til"
+
+msgid "Apply"
+msgstr "Qo‘llash"
+
+msgid "Signed out"
+msgstr "Tizimdan chiqdingiz"

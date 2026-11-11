@@ -1,0 +1,18 @@
+{% load i18n static %}
+{% get_current_language as current_language %}
+<!doctype html>
+<html lang="{{ current_language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% translate "Offline" %} · Muzqaymoq ERP</title>
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+</head>
+<body class="bg-stone-100 text-stone-900">
+  <main class="mx-auto max-w-md px-4 py-8">
+    <h1 class="text-2xl font-semibold">{% translate "Offline" %}</h1>
+    <p class="mt-3">{% translate "Reconnect to open the workspace." %}</p>
+    <a href="{% url 'home' %}" class="mt-4 inline-flex min-h-11 items-center underline">{% translate "Try again" %}</a>
+  </main>
+</body>
+</html>

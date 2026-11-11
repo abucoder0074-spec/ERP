@@ -1,0 +1,14 @@
+{% load i18n %}
+{% get_current_language as current_language %}
+{% get_available_languages as available_languages %}
+<form method="post" action="{% url 'set_language' %}" class="mx-auto mt-6 flex max-w-5xl flex-wrap items-center gap-2 px-4 pb-6 sm:px-6">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.path }}">
+  <label for="language">{% translate "Language" %}</label>
+  <select name="language" id="language" class="min-h-11 rounded-lg border border-stone-500 bg-white px-2">
+    {% for code, label in available_languages %}
+      <option value="{{ code }}"{% if code == current_language %} selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="min-h-11 rounded-lg border border-stone-500 bg-white px-3">{% translate "Apply" %}</button>
+</form>

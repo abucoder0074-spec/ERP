@@ -1,0 +1,82 @@
+name: Phase 0 CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16.15-bookworm
+        env:
+          POSTGRES_DB: erp
+          POSTGRES_USER: erp
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U erp -d erp"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+      redis:
+        image: redis:8.10.3-trixie
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      APP_ENV: development
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+      POSTGRES_DB: erp
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: unused-for-ephemeral-ci-database
+      POSTGRES_HOST: 127.0.0.1
+      LOGIN_REDIS_URL: redis://127.0.0.1:6379/0
+      CELERY_BROKER_URL: redis://127.0.0.1:6379/1
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -c 'from secrets import token_urlsafe; print("DJANGO_SECRET_KEY=" + token_urlsafe(48))' >> "$GITHUB_ENV"
+      - run: python -m pip install -r requirements-dev.txt
+      - run: make translations
+      - run: make lint
+      - run: make typecheck
+      - run: python manage.py makemigrations --check --dry-run
+      - run: python manage.py migrate --noinput
+      - run: python manage.py collectstatic --noinput
+      - run: make test
+
+  compose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python scripts/init_env.py
+      - run: docker compose up -d --wait --wait-timeout 150
+      - run: docker compose ps
+      - name: Verify readiness and dependency outages
+        shell: bash
+        run: |
+          test "$(curl -fsS http://localhost:8000/health/)" = '{"status": "ok"}'
+          for service in db redis; do
+            docker compose stop "$service"
+            code=$(curl -sS -o health.json -w '%{http_code}' http://localhost:8000/health/)
+            test "$code" = 503
+            test "$(cat health.json)" = '{"status": "unavailable"}'
+            docker compose start "$service"
+            curl -fsS --retry 10 --retry-delay 2 http://localhost:8000/health/
+          done
+      - if: failure()
+        run: docker compose ps
+      - if: always()
+        run: docker compose down -v

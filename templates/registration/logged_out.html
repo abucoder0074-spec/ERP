@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Signed out" %} · Muzqaymoq ERP{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-md rounded-2xl border border-stone-300 bg-white p-5 sm:p-8">
+  <h1 class="text-2xl font-semibold">{% translate "Signed out" %}</h1>
+  <a href="{% url 'login' %}" class="mt-4 inline-flex min-h-11 items-center font-medium text-[#215b45] underline">{% translate "Sign in" %}</a>
+</section>
+{% endblock %}

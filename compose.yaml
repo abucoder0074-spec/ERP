@@ -1,0 +1,90 @@
+x-app: &app
+  image: muzqaymoq-erp:phase0
+  pull_policy: never
+  env_file: .env
+  user: "10001:10001"
+  restart: unless-stopped
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  web:
+    <<: *app
+    build: .
+    command:
+      - sh
+      - -ec
+      - >-
+        python manage.py migrate --noinput &&
+        python manage.py collectstatic --noinput &&
+        exec gunicorn config.wsgi:application --bind 0.0.0.0:8000
+        --workers 2 --forwarded-allow-ips ''
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.health_probe", "web"]
+      interval: 10s
+      timeout: 6s
+      start_period: 30s
+      retries: 5
+  worker:
+    <<: *app
+    command: ["celery", "-A", "config.celery", "worker", "--loglevel=INFO", "--concurrency=2", "--hostname=erp@%h"]
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A config.celery inspect -d erp@$$HOSTNAME -t 3 ping"]
+      interval: 20s
+      timeout: 8s
+      start_period: 15s
+      retries: 5
+  beat:
+    <<: *app
+    command: ["celery", "-A", "config.celery", "beat", "--loglevel=INFO", "--schedule=/app/run/celerybeat-schedule"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.health_probe", "beat"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  bot:
+    <<: *app
+    command: ["python", "-m", "bot"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.health_probe", "bot"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+  db:
+    image: postgres:16.15-bookworm
+    user: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  redis:
+    image: redis:8.10.3-trixie
+    user: redis
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}
+    command: ["sh", "-ec", "exec redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$REDIS_PASSWORD\" redis-cli ping | grep -qx PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  postgres-data:
+  redis-data:
