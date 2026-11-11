@@ -37,7 +37,7 @@ The tests enumerate allowed and forbidden document transitions and exercise mult
 
 ### Compose and hosted CI
 
-The local Linux guest ran `docker compose config --quiet`, `docker compose build web`, `docker compose up -d`, `docker compose up -d --wait` and `docker compose ps`. All six services were healthy. `curl -fsS http://127.0.0.1:8000/health/` returned `{"status": "ok"}`.
+The local Linux guest ran `docker compose config --quiet`, `docker compose build web`, `docker compose up -d`, `docker compose up -d --wait --wait-timeout 180` and `docker compose ps`. A parallel scratch stack delayed web startup beyond the healthcheck window. After stopping that stack, the retry showed all six services healthy. `curl -fsS -w ' HTTP %{http_code}\n' http://127.0.0.1:8000/health/` returned `{"status": "ok"} HTTP 200`. The container runs of `migrate` and `makemigrations --check --dry-run` printed `No migrations to apply.` and `No changes detected`.
 
 Phase 1 was checked before starting Phase 2. The `checks` and `compose` jobs passed on `origin/main` at `33a98b0`. [Phase 1 GitHub Actions run](https://github.com/abucoder0074-spec/ERP/actions/runs/43014611021)
 

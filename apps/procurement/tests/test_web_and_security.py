@@ -135,26 +135,77 @@ def test_role_actions(client: Client, setup: Setup, role: str) -> None:
     order = setup.order()
     purchase = setup.request()
     receipt = setup.receipt(order, "1")
+    approved = setup.request(approved=True)
+    rfq = open_rfq(setup.actor, uuid4(), approved.pk, (setup.supplier.pk, setup.other.pk))
+    line_id = receipt.lines.get().pk
+    invoice = record_invoice(
+        setup.actor,
+        uuid4(),
+        order.pk,
+        InvoiceData(
+            "ROLE-1",
+            setup.today,
+            "UZS",
+            Decimal(1),
+            setup.today,
+            (InvoiceLine(line_id, Decimal(1), Decimal(105)),),
+        ),
+    )
+    attachment = attach(setup.actor, uuid4(), "request", purchase.pk, "proof.png", photo())
     maker = role in {"Admin", "Procurement Manager", "Procurement Specialist"}
+    canceller = role in {"Admin", "Procurement Manager"}
     receiver = role in {"Admin", "Procurement Manager", "Warehouse Keeper"}
     finance = role in {"Admin", "Accountant"}
-    for kind in ("requests", "rfqs", "orders", "receipts", "invoices"):
+    for kind, pk in (
+        ("requests", purchase.pk),
+        ("rfqs", rfq.pk),
+        ("orders", order.pk),
+        ("receipts", receipt.pk),
+        ("invoices", invoice.pk),
+    ):
         assert client.get(reverse("procurement_list", args=[kind])).status_code == 200
+        assert client.get(reverse("procurement_detail", args=[kind, pk])).status_code == 200
+    assert client.get(reverse("procurement_inbox")).status_code == 200
+    assert client.get(reverse("procurement_deliveries")).status_code == 200
+    assert (
+        client.get(reverse("procurement_version", args=[order.active_version_id])).status_code
+        == 200
+    )
+    assert client.get(reverse("procurement_download", args=[attachment.pk])).status_code == 200
+    action_checks = (
+        ("submit", purchase.pk, maker),
+        ("replenish", 1, maker),
+        ("rfq", purchase.pk, maker),
+        ("quote", rfq.pk, maker),
+        ("select", rfq.pk, maker),
+        ("cancel-rfq", rfq.pk, canceller),
+        ("convert", approved.pk, maker),
+        ("amend", order.pk, maker),
+        ("cancel-order", order.pk, canceller),
+        ("receive", order.pk, receiver),
+        ("return", line_id, receiver),
+        ("invoice", order.pk, finance),
+        ("override", invoice.pk, finance),
+        ("cancel-invoice", invoice.pk, finance),
+    )
     checks = [
         (reverse("procurement_new", args=["request"]), maker),
         (reverse("procurement_new", args=["order"]), maker),
-        (reverse("procurement_action", args=["rfq", purchase.pk]), maker),
-        (reverse("procurement_action", args=["amend", order.pk]), maker),
         (
-            reverse("procurement_action", args=["cancel-order", order.pk]),
-            role in {"Admin", "Procurement Manager"},
+            reverse("procurement_decision", args=[purchase.approval.steps.get().pk]),
+            role == "Procurement Manager",
         ),
-        (reverse("procurement_action", args=["receive", order.pk]), receiver),
-        (reverse("procurement_action", args=["return", receipt.lines.get().pk]), receiver),
-        (reverse("procurement_action", args=["invoice", order.pk]), finance),
         (reverse("procurement_policy", args=["rules"]), role == "Admin"),
+        (reverse("procurement_policy", args=["delegations"]), role == "Admin"),
+        (reverse("procurement_upload", args=["requests", purchase.pk]), maker),
+        (reverse("procurement_upload", args=["orders", order.pk]), maker),
         (reverse("procurement_upload", args=["receipts", receipt.pk]), receiver),
+        (reverse("procurement_upload", args=["invoices", invoice.pk]), finance),
     ]
+    checks.extend(
+        (reverse("procurement_action", args=[action, pk]), allowed)
+        for action, pk, allowed in action_checks
+    )
     for url, allowed in checks:
         assert client.get(url).status_code == (200 if allowed else 403), url
 
