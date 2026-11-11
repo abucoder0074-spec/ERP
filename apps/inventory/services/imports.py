@@ -229,7 +229,7 @@ def _check_opening(
         if (
             operation.kind != MovementType.RECEIPT
             or operation.created_by_id != actor.pk
-            or operation.fingerprint != posting_fingerprint(vars(receipt))
+            or operation.fingerprint != posting_fingerprint(receipt.posting_payload())
         ):
             raise ValidationError(_("This posting key is already used for a different request."))
         return

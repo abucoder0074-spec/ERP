@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.masterdata",
     "apps.inventory",
+    "apps.procurement",
 ]
 MIDDLEWARE = [
     "apps.core.middleware.RequestContextMiddleware",
@@ -151,4 +152,20 @@ CELERY_BEAT_SCHEDULE = {
         "task": "apps.inventory.tasks.refresh_stock_alerts",
         "schedule": 300,
     },
+}
+
+PROCUREMENT_OVER_DELIVERY_PERCENT = Decimal(integer("PROCUREMENT_OVER_DELIVERY_PERCENT", 5, 0, 100))
+PROCUREMENT_QUANTITY_MATCH_PERCENT = Decimal(
+    integer("PROCUREMENT_QUANTITY_MATCH_PERCENT", 0, 0, 100)
+)
+PROCUREMENT_PRICE_MATCH_PERCENT = Decimal(integer("PROCUREMENT_PRICE_MATCH_PERCENT", 1, 0, 100))
+PROCUREMENT_QUARANTINE_DRY = bool(integer("PROCUREMENT_QUARANTINE_DRY", 0, 0, 1))
+PROCUREMENT_QUARANTINE_COLD = bool(integer("PROCUREMENT_QUARANTINE_COLD", 1, 0, 1))
+PROCUREMENT_ATTACHMENT_LIMIT = integer("PROCUREMENT_ATTACHMENT_LIMIT", 2097152, 1024, 2097152)
+PROCUREMENT_SCAN_HOOK = environ.get(
+    "PROCUREMENT_SCAN_HOOK", "apps.procurement.services.attachments.no_op_scan"
+)
+CELERY_BEAT_SCHEDULE["refresh-overdue-deliveries"] = {
+    "task": "apps.procurement.tasks.refresh_overdue_deliveries",
+    "schedule": 300,
 }

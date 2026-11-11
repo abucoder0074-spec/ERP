@@ -102,3 +102,24 @@ window.addEventListener("pagehide", stopCamera);
 document.addEventListener("htmx:beforeSwap", stopCamera);
 document.addEventListener("htmx:afterSwap", enableScanning);
 enableScanning();
+
+document.addEventListener("click", event => {
+  const button = event.target.closest("[data-add-procurement-row]");
+  if (!button) return;
+  const form = button.form;
+  const total = form.querySelector("[name=lines-TOTAL_FORMS]");
+  const index = Number(total.value);
+  if (index >= 100) return;
+  const template = form.querySelector("[data-procurement-row]");
+  const clone = template.content.cloneNode(true);
+  clone.querySelectorAll("[name], [id], [for]").forEach(element => {
+    for (const attr of ["name", "id", "for"]) {
+      if (element.hasAttribute(attr)) {
+        element.setAttribute(attr, element.getAttribute(attr).replaceAll("__prefix__", String(index)));
+      }
+    }
+  });
+  form.querySelector("[data-procurement-lines]").append(clone);
+  total.value = String(index + 1);
+  enableScanning();
+});

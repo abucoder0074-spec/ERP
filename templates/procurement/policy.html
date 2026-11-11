@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}{% include "procurement/nav.html" %}
+<h1 class="mb-4 text-2xl font-semibold">{% translate "Approval configuration" %}</h1>
+<a class="workspace-link" href="{% url 'procurement_policy_edit' kind 0 %}">{% translate "Add record" %}</a>
+<ul class="mt-4 space-y-2">{% for record in page %}<li><a class="workspace-link" href="{% url 'procurement_policy_edit' kind record.pk %}">#{{ record.pk }} · {% if kind == 'rules' %}{{ record.group }} · {{ record.level }} · {{ record.minimum }} – {{ record.maximum|default_if_none:"—" }}{% else %}{{ record.principal }} → {{ record.delegate }} · {{ record.starts_on|date:"SHORT_DATE_FORMAT" }} – {{ record.ends_on|date:"SHORT_DATE_FORMAT" }}{% endif %}</a></li>{% empty %}<li>{% translate "No matching records." %}</li>{% endfor %}</ul>
+{% include "workspace/pagination.html" %}{% endblock %}

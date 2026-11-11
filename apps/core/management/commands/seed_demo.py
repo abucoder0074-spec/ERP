@@ -15,6 +15,7 @@ from apps.inventory.services.posting import Receipt, change_quality, receive_goo
 from apps.masterdata.forms import CATALOGS
 from apps.masterdata.models import Item, NamedRecord
 from apps.masterdata.services import save_record
+from apps.procurement.services.demo import seed_procurement
 
 
 def _record(actor: User, slug: str, code: str, **fields: Any) -> int:
@@ -182,7 +183,13 @@ class Command(BaseCommand):
                 batch = Batch.objects.get(item_id=item, number=number)
                 if batch.quality == Quality.QUARANTINE:
                     change_quality(actor, batch.pk, Quality.APPROVED)
+        invoice = seed_procurement(actor)
         alerts = refresh_alerts()
         self.stdout.write(
             f"Phase 1 demo ready: 4 items, 3 suppliers, 5 batches, {alerts} new alerts."
+        )
+
+        self.stdout.write(
+            "Phase 2 demo ready: request, approval, RFQ, PO, partial receipt, "
+            f"invoice {invoice.number} ({invoice.state})."
         )

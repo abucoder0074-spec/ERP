@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+{% include "procurement/nav.html" %}
+<div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+<h1 class="text-2xl font-semibold">{{ title }}</h1>
+{% if kind == 'requests' and perms.procurement.add_purchaserequest %}<a class="workspace-link" href="{% url 'procurement_new' 'request' %}">{% translate "Create purchase request" %}</a>{% endif %}
+{% if kind == 'orders' and perms.procurement.add_purchaseorder %}<a class="workspace-link" href="{% url 'procurement_new' 'order' %}">{% translate "Create purchase order" %}</a>{% endif %}
+</div>
+<ul class="grid gap-3 sm:grid-cols-2">
+{% for record in page %}
+<li><a class="workspace-link w-full" href="{% url 'procurement_detail' kind record.pk %}">
+#{{ record.pk }} · {{ record.created_at|date:"SHORT_DATE_FORMAT" }} {% if record.get_state_display %} · {{ record.get_state_display }}{% endif %}
+{% if record.supplier %} · {{ record.supplier }}{% endif %}{% if kind == 'receipts' %} · {{ record.order }}{% endif %}{% if kind == 'rfqs' %} · {{ record.request }}{% endif %}
+</a></li>
+{% empty %}<li>{% translate "No matching records." %}</li>{% endfor %}
+</ul>
+{% include "workspace/pagination.html" %}
+{% endblock %}

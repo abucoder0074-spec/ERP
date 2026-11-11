@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}{% include "procurement/nav.html" %}
+<h1 class="mb-4 text-2xl font-semibold">{% translate "Approval inbox" %}</h1>
+<ul class="space-y-3">{% for step in page %}<li class="rounded border border-stone-300 bg-white p-3">
+{% if step.case.request %}<a class="workspace-link" href="{% url 'procurement_detail' 'requests' step.case.request_id %}">{{ step.case.request }}</a>{% else %}<a class="workspace-link" href="{% url 'procurement_version' step.case.version_id %}">{{ step.case.version.order }} · #{{ step.case.version.number }}</a>{% endif %}
+<span>{{ step.case.amount }} UZS · {% translate "Approval level" %} {{ step.level }}</span>
+<a class="workspace-link" href="{% url 'procurement_decision' step.pk %}">{% translate "Approval decision" %}</a></li>
+{% empty %}<li>{% translate "No pending approvals." %}</li>{% endfor %}</ul>
+{% include "workspace/pagination.html" %}{% endblock %}

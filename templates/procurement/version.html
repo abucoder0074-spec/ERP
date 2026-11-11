@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}{% include "procurement/nav.html" %}
+<section class="space-y-3 rounded-xl border border-stone-300 bg-white p-4">
+<h1 class="text-2xl font-semibold">{{ version.order }} · {% translate "Version" %} {{ version.number }}</h1>
+<p>{{ version.get_state_display }} · {{ version.expected_on|date:"SHORT_DATE_FORMAT" }} · {{ version.reason }}</p>
+<p>{{ version.currency }} · {{ version.exchange_rate }} · {{ version.rate_date|date:"SHORT_DATE_FORMAT" }}</p>
+<p>{% translate "Subtotal" %} {{ version.subtotal }} · {% translate "VAT" %} {{ version.tax }} · {{ version.total_uzs }} UZS</p>
+<ul>{% for line in lines %}<li>{{ line.item }} · {{ line.quantity }} × {{ line.price }} · {{ line.vat_rate }}%</li>{% endfor %}</ul>
+{% if diff %}<h2 class="font-semibold">{% translate "Changes from previous version" %}</h2><ul>
+{% for field, values in diff.terms.items %}
+<li>
+{% if field == 'currency' %}{% translate "Currency" %}{% elif field == 'exchange_rate' %}{% translate "UZS per currency unit" %}{% elif field == 'rate_date' %}{% translate "Rate date" %}{% elif field == 'expected_on' %}{% translate "Expected delivery" %}{% elif field == 'subtotal' %}{% translate "Subtotal" %}{% elif field == 'tax' %}{% translate "VAT" %}{% else %}{% translate "Total in UZS" %}{% endif %}
+· {% if field == 'rate_date' or field == 'expected_on' %}{{ values.0|date:"SHORT_DATE_FORMAT" }} → {{ values.1|date:"SHORT_DATE_FORMAT" }}{% else %}{{ values.0 }} → {{ values.1 }}{% endif %}
+</li>
+{% endfor %}
+{% for item, values in diff.lines.items %}<li>{{ item }} · {% if values.0 %}{{ values.0.0 }} × {{ values.0.1 }} · {{ values.0.2 }}%{% else %}—{% endif %} → {% if values.1 %}{{ values.1.0 }} × {{ values.1.1 }} · {{ values.1.2 }}%{% else %}—{% endif %}</li>{% endfor %}</ul>{% endif %}
+</section>{% endblock %}

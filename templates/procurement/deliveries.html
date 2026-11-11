@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}{% include "procurement/nav.html" %}
+<h1 class="mb-4 text-2xl font-semibold">{% translate "Delivery tracking" %}</h1>
+<h2 class="font-semibold">{% translate "Overdue deliveries" %}</h2>
+<ul class="mb-4">{% for order in overdue %}<li><a class="workspace-link" href="{% url 'procurement_detail' 'orders' order.pk %}">{{ order }} · {{ order.supplier }} · {{ order.active_version.expected_on|date:"SHORT_DATE_FORMAT" }}</a></li>{% empty %}<li>{% translate "No overdue deliveries." %}</li>{% endfor %}</ul>
+<h2 class="font-semibold">{% translate "Supplier performance" %}</h2>
+<ul class="mb-4">{% for supplier, count, rate, defects in stats %}<li>{{ supplier }} · {{ count }} · {% translate "On time" %} {{ rate }}% · {% translate "Defective lines" %} {{ defects }}</li>{% empty %}<li>{% translate "No matching records." %}</li>{% endfor %}</ul>
+<ul class="space-y-2">{% for receipt in page %}<li><a class="workspace-link" href="{% url 'procurement_detail' 'receipts' receipt.pk %}">{{ receipt }} · {{ receipt.order.supplier }}</a> {{ receipt.version.expected_on|date:"SHORT_DATE_FORMAT" }} → {{ receipt.delivered_on|date:"SHORT_DATE_FORMAT" }} · {{ receipt.delay_reason }}</li>{% empty %}<li>{% translate "No matching records." %}</li>{% endfor %}</ul>
+{% include "workspace/pagination.html" %}{% endblock %}

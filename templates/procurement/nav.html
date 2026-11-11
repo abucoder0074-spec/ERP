@@ -1,0 +1,11 @@
+{% load i18n %}
+<nav class="mb-4 flex flex-wrap gap-2" aria-label="{% translate 'Procurement' %}">
+<a class="workspace-link" href="{% url 'procurement_list' 'requests' %}">{% translate "Purchase requests" %}</a>
+<a class="workspace-link" href="{% url 'procurement_inbox' %}">{% translate "Approval inbox" %}</a>
+<a class="workspace-link" href="{% url 'procurement_list' 'rfqs' %}">{% translate "Requests for quotation" %}</a>
+<a class="workspace-link" href="{% url 'procurement_list' 'orders' %}">{% translate "Purchase orders" %}</a>
+<a class="workspace-link" href="{% url 'procurement_list' 'receipts' %}">{% translate "Goods receipts" %}</a>
+<a class="workspace-link" href="{% url 'procurement_list' 'invoices' %}">{% translate "Supplier invoices" %}</a>
+<a class="workspace-link" href="{% url 'procurement_deliveries' %}">{% translate "Delivery tracking" %}</a>
+{% if perms.procurement.change_approvalrule %}<a class="workspace-link" href="{% url 'procurement_policy' 'rules' %}">{% translate "Approval rules" %}</a><a class="workspace-link" href="{% url 'procurement_policy' 'delegations' %}">{% translate "Delegations" %}</a>{% endif %}
+</nav>

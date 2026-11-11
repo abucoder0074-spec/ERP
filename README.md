@@ -1,6 +1,6 @@
 # Muzqaymoq ERP
 
-Procurement and warehouse ERP for Muzqaymoq. Phase 1 adds the catalog, warehouse ledger, FEFO issues, stocktakes, alerts and file imports to the Uzbek workspace.
+Procurement and warehouse ERP for Muzqaymoq. The Uzbek workspace includes inventory and Phase 2 procurement from purchase request through matched supplier invoice.
 
 ## Start locally
 
@@ -51,8 +51,16 @@ docker compose exec web python manage.py seed_demo
 docker compose exec web python manage.py reconcile_stock
 ```
 
-The demo creates milk, sugar, cups and wafer cones, three suppliers and five batches. Receive a lot into a location with matching storage, then have a manager approve it before issuing it. For stocktakes, use separate accounts for counting and approval. Browser scanning requires HTTPS or localhost. The same forms accept manual codes.
+The demo creates milk, sugar, cups and wafer cones, three suppliers and five opening batches. Receive a lot into a location with matching storage, then have a manager approve it before issuing it. For stocktakes, use separate accounts for counting and approval. Browser scanning requires HTTPS or localhost. The same forms accept manual codes.
 
 Catalog and opening-stock imports accept UTF-8 CSV and single-sheet XLSX files. The import screen lists required headers. Use ISO dates (`YYYY-MM-DD`) and a decimal point. Preview the file to see row errors, then select it again to commit. Imports limit files to 2 MiB and 500 rows. Opening stock quantities and prices are in base units and UZS.
 
-See [the ERD](docs/erd.md), [known gaps](docs/known-gaps.md), and the [Phase 1 report](docs/phase-1.md).
+See [the ERD](docs/erd.md), [known gaps](docs/known-gaps.md), the [Phase 1 report](docs/phase-1.md), and the [Phase 2 report](docs/phase-2.md).
+
+## Procurement workflow
+
+Configure approval ranges and dated delegates as Admin. The initial catch-all rule assigns one approval to Procurement Manager. Use different accounts to submit and decide. Record RFQ invitations and quotes, convert the approved request, and approve the first PO version before receiving. Receipts and returns post through the inventory ledger.
+
+The demo adds a request, approval, two quotes, an approved PO, partial receipt and a mismatched supplier invoice. Invoice unit prices are net of VAT. Order and invoice VAT are rounded per line, and the document gross is converted to UZS using the recorded rate. Phase 2 ends at readiness for payment.
+
+Attachment bytes are stored in the database and downloaded through permission-checked routes. Use `PROCUREMENT_SCAN_HOOK` to set a callable accepting bytes and MIME type and returning a boolean. The default hook performs no malware scan. Procurement tolerances and quarantine settings are listed in `.env.example`.

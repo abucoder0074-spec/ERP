@@ -33,3 +33,18 @@ The Admin group receives the same Phase 0 workspace grant as the other six group
 | Anonymous | Sign in | Sign in | Sign in | Sign in | Sign in | Sign in |
 
 Catalog edits include archive and reactivate actions. A count can be changed or submitted by its counter only. Approval and posting require a different account from the counter. Managers can cancel pending stocktakes. Write-offs above `WRITE_OFF_LIMIT_UZS` require the large write-off grant, and overriding FEFO requires a reason. Stock balances and movement history are Phase 1 read reports.
+
+## Phase 2 procurement
+
+| Role | Read procurement documents and their attachments | Create requests, RFQs and orders | Decide assigned approval steps | Receive and return | Unplanned receipt and order cancellation | Invoice entry and match resolution | Configure approval rules and delegation |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Admin | Yes | Yes | When assigned | Yes | Yes | Yes | Yes |
+| Procurement Manager | Yes | Yes | When assigned | Yes | Yes | No | No |
+| Procurement Specialist | Yes | Yes | Active delegation only | No | No | No | No |
+| Warehouse Keeper | Yes | No | No | Yes | No | No | No |
+| Accountant | Yes | No | No | No | No | Yes | No |
+| Production Planner | Yes | No | No | No | No | No | No |
+| Viewer | Yes | No | No | No | No | No | No |
+| Roleless account | 403 | 403 | 403 | 403 | 403 | 403 | 403 |
+
+Adding evidence also requires the associated document creation permission. The requester cannot decide any step on their own submission. Approving an amendment uses the amendment author as requester. Managers and Admin can cancel the remainder of a PO while preserving posted receipts. Accountants and Admin can record invoice overrides and cancellations with reasons.

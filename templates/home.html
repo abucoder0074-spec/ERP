@@ -11,5 +11,10 @@
   {% else %}
     <p class="mt-3 text-stone-700">{% translate "There is no dashboard data yet." %}</p>
   {% endif %}
+{% if show_delivery_alerts %}
+  <h2 class="mb-3 mt-5 text-lg font-semibold">{% translate "Overdue deliveries" %}</h2>
+  <ul>{% for alert in delivery_alerts %}<li><a class="inline-flex min-h-11 items-center underline" href="{% url 'procurement_detail' 'orders' alert.order_id %}">{{ alert.order }} · {{ alert.order.supplier }} · {{ alert.version.expected_on|date:"SHORT_DATE_FORMAT" }}</a></li>{% empty %}<li>{% translate "No overdue deliveries." %}</li>{% endfor %}</ul>
+  <a class="mt-3 inline-flex min-h-11 items-center underline" href="{% url 'procurement_deliveries' %}">{% translate "Delivery tracking" %}</a>
+{% endif %}
 </section>
 {% endblock %}

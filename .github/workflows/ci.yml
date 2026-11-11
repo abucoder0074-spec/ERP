@@ -1,4 +1,4 @@
-name: Phase 0 CI
+name: ERP CI
 
 on: [push, pull_request]
 
@@ -76,6 +76,8 @@ jobs:
             docker compose start "$service"
             curl -fsS --retry 10 --retry-delay 2 http://localhost:8000/health/
           done
+      - run: docker compose exec -T web python manage.py seed_demo
+      - run: docker compose exec -T web python manage.py reconcile_stock
       - if: failure()
         run: docker compose ps
       - if: always()

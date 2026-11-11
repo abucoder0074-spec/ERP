@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+{% include "procurement/nav.html" %}
+<section class="mx-auto max-w-xl rounded-2xl border border-stone-300 bg-white p-5">
+<h1 class="text-2xl font-semibold">{{ title }}</h1>
+<form method="post" enctype="multipart/form-data" class="login-form mt-4 space-y-4" data-pending="{% translate 'Processing…' %}" data-confirm="{% translate 'Confirm this change?' %}">
+{% csrf_token %}{{ form.as_p }}
+{% if rows %}
+{{ rows.management_form }}{{ rows.non_form_errors }}
+<div class="space-y-4" data-procurement-lines>
+{% for row in rows %}<fieldset class="space-y-2 rounded-lg border border-stone-300 p-3">{% if scanning %}{% include "workspace/scanner.html" %}{% endif %}{{ row.as_p }}</fieldset>{% endfor %}
+</div>
+<template data-procurement-row><fieldset class="space-y-2 rounded-lg border border-stone-300 p-3">{% if scanning %}{% include "workspace/scanner.html" %}{% endif %}{{ rows.empty_form.as_p }}</fieldset></template>
+<button type="button" class="workspace-link" data-add-procurement-row>{% translate "Add line" %}</button>
+{% endif %}
+<button type="submit" class="workspace-link">{% translate "Save" %}</button>
+</form>
+</section>
+{% endblock %}

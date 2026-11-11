@@ -25,6 +25,7 @@
           {% if show_workspace %}
             <a href="{% url 'home' %}" hx-boost="true" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Dashboard" %}</a>
                     {% if perms.masterdata.view_item %}<a href="{% url 'catalog_index' %}" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Master data" %}</a>{% endif %}
+          {% if perms.procurement.view_purchaserequest %}<a href="{% url 'procurement_list' 'requests' %}" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Procurement" %}</a>{% endif %}
           {% if perms.inventory.view_stockbalance %}<a href="{% url 'stock_balances' %}" class="inline-flex min-h-11 items-center px-2 underline">{% translate "Inventory" %}</a>{% endif %}
           {% endif %}
           <form method="post" action="{% url 'logout' %}">

@@ -99,6 +99,6 @@ def test_demo_seed_is_repeatable_and_development_only(settings: SettingsWrapper)
         call_command("seed_demo", stdout=out)
     assert Item.objects.filter(code__startswith="DEMO-").count() == 4
     assert Supplier.objects.filter(code__startswith="DEMO-").count() == 3
-    assert Batch.objects.filter(quality="quarantine").count() == 1
-    assert StockMovement.objects.count() == 5
+    assert Batch.objects.filter(quality="quarantine", receipt_reference="DEMO-KIRIM").count() == 1
+    assert StockMovement.objects.filter(batch__receipt_reference="DEMO-KIRIM").count() == 5
     assert "5 batches" in out.getvalue()

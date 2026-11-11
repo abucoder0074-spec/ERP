@@ -1,0 +1,60 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+{% include "procurement/nav.html" %}
+<section class="space-y-4 rounded-xl border border-stone-300 bg-white p-4">
+<h1 class="text-2xl font-semibold">{{ title }} · #{{ record.pk }}</h1>
+{% if record.get_state_display %}<p class="font-semibold">{{ record.get_state_display }}</p>{% endif %}
+{% if kind == 'requests' %}
+<p>{{ record.department }} · {{ record.get_priority_display }} · {{ record.needed_by|date:"SHORT_DATE_FORMAT" }}</p><p>{{ record.justification }}</p>
+<ul>{% for line in lines %}<li>{{ line.item }} · {{ line.quantity }} × {{ line.estimated_unit_cost }} UZS · {{ line.preferred_supplier|default_if_none:"—" }}</li>{% endfor %}</ul>
+{% if perms.procurement.add_purchaserequest and record.state == 'draft' and record.created_by_id == request.user.pk %}<a class="workspace-link" href="{% url 'procurement_action' 'submit' record.pk %}">{% translate "Submit purchase request" %}</a>{% endif %}
+{% if rfq %}<a class="workspace-link" href="{% url 'procurement_detail' 'rfqs' rfq.pk %}">{% translate "Requests for quotation" %}</a>{% elif perms.procurement.add_rfq and record.state == 'approved' %}<a class="workspace-link" href="{% url 'procurement_action' 'rfq' record.pk %}">{% translate "Record RFQ dispatch" %}</a>{% endif %}
+{% if order %}<a class="workspace-link" href="{% url 'procurement_detail' 'orders' order.pk %}">{{ order }}</a>{% elif perms.procurement.add_purchaseorder and record.state == 'approved' %}<a class="workspace-link" href="{% url 'procurement_action' 'convert' record.pk %}">{% translate "Convert request to purchase order" %}</a>{% endif %}
+{% elif kind == 'rfqs' %}
+<p>{% translate "Invited suppliers" %} · {% for row in invitations %}{{ row.supplier }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+<ul class="space-y-3">{% for quote, rating in comparison %}<li class="rounded border border-stone-300 p-3">
+<strong>#{{ quote.pk }} · {{ quote.supplier }}</strong><p>{{ quote.total }} {{ quote.currency }} · {{ quote.total_uzs }} UZS</p>
+<p>{% translate "Lead time in days" %} {{ quote.lead_days }} · {% translate "Delivery rating" %} {{ rating|default_if_none:"—" }}/5</p>
+<p>{{ quote.valid_from|date:"SHORT_DATE_FORMAT" }} – {{ quote.valid_until|date:"SHORT_DATE_FORMAT" }} · {{ quote.payment_terms }}</p>
+{% if record.selected_id == quote.pk %}<p>{% translate "Selected" %} · {{ record.selection_reason }}</p>{% endif %}
+</li>{% empty %}<li>{% translate "No quotes recorded." %}</li>{% endfor %}</ul>
+{% if record.state == 'open' %}
+{% if perms.procurement.add_quote %}<a class="workspace-link" href="{% url 'procurement_action' 'quote' record.pk %}">{% translate "Record quote" %}</a>{% endif %}
+{% if perms.procurement.add_rfq %}<a class="workspace-link" href="{% url 'procurement_action' 'select' record.pk %}">{% translate "Select quote" %}</a>{% endif %}
+{% if perms.procurement.cancel_order %}<a class="workspace-link" href="{% url 'procurement_action' 'cancel-rfq' record.pk %}">{% translate "Cancel RFQ" %}</a>{% endif %}
+{% endif %}
+<a class="workspace-link" href="{% url 'procurement_detail' 'requests' record.request_id %}">{{ record.request }}</a>
+{% elif kind == 'orders' %}
+<p>{{ record.supplier }} · {{ record.cancellation_reason }}</p>
+{% if record.active_version %}<p>{% translate "Expected delivery" %} · {{ record.active_version.expected_on|date:"SHORT_DATE_FORMAT" }} · {{ record.active_version.total_uzs }} UZS</p>{% endif %}
+<ul>{% for line in lines %}<li>{{ line.item }} · {{ line.quantity }} × {{ line.price }} {{ record.active_version.currency }}</li>{% endfor %}</ul>
+<h2 class="font-semibold">{% translate "Version history" %}</h2>
+<div class="flex flex-wrap gap-2">{% for version in versions %}<a class="workspace-link" href="{% url 'procurement_version' version.pk %}">#{{ version.number }} · {{ version.get_state_display }}</a>{% endfor %}</div>
+{% if record.state == 'active' and perms.procurement.add_goodsreceipt %}<a class="workspace-link" href="{% url 'procurement_action' 'receive' record.pk %}">{% translate "Receive against order" %}</a>{% endif %}
+{% if record.state == 'active' or record.state == 'rejected' %}{% if perms.procurement.change_purchaseorder %}<a class="workspace-link" href="{% url 'procurement_action' 'amend' record.pk %}">{% translate "Amend purchase order" %}</a>{% endif %}{% endif %}
+{% if receipts and perms.procurement.add_supplierinvoice %}<a class="workspace-link" href="{% url 'procurement_action' 'invoice' record.pk %}">{% translate "Record supplier invoice" %}</a>{% endif %}
+{% if perms.procurement.cancel_order and record.state != 'cancelled' %}<a class="workspace-link" href="{% url 'procurement_action' 'cancel-order' record.pk %}">{% translate "Cancel purchase order" %}</a>{% endif %}
+<ul>{% for receipt in receipts %}<li><a class="inline-flex min-h-11 items-center underline" href="{% url 'procurement_detail' 'receipts' receipt.pk %}">{{ receipt }}</a></li>{% endfor %}{% for invoice in invoices %}<li><a class="inline-flex min-h-11 items-center underline" href="{% url 'procurement_detail' 'invoices' invoice.pk %}">{{ invoice }}</a></li>{% endfor %}</ul>
+{% elif kind == 'receipts' %}
+<p>{{ record.order }} · {{ record.delivered_on|date:"SHORT_DATE_FORMAT" }} · {{ record.delay_reason }}</p>
+<ul class="space-y-3">{% for line in lines %}<li class="rounded border border-stone-300 p-3">
+#{{ line.pk }} · {{ line.item }} · {{ line.quantity }} · {{ line.supplier_batch }} · {{ line.batch.expiry|date:"SHORT_DATE_FORMAT" }} · {{ line.batch.get_quality_display }}
+{% for returned in line.returns.all %}<p>{% translate "Supplier return" %} · {{ returned.quantity }} · {{ returned.reason }}</p>{% endfor %}
+{% if perms.procurement.add_supplierreturn %}<a class="workspace-link" href="{% url 'procurement_action' 'return' line.pk %}">{% translate "Return defective goods" %}</a>{% endif %}
+</li>{% endfor %}</ul>
+{% elif kind == 'invoices' %}
+<p>{{ record.number }} · {{ record.supplier }} · {{ record.invoice_date|date:"SHORT_DATE_FORMAT" }} · {{ record.total }} {{ record.currency }} · {% translate "VAT" %} {{ record.tax }} {{ record.currency }} · {{ record.total_uzs }} UZS</p>
+<ul>{% for line in lines %}<li>{{ line.receipt_line.item }} · {{ line.receipt_line.receipt }} · {{ line.quantity }} × {{ line.price }}</li>{% endfor %}</ul>
+{% if mismatches %}<ul class="rounded bg-amber-50 p-3">{% for pk, reasons in mismatches %}<li>#{{ pk }} · {{ reasons|join:" " }}</li>{% endfor %}</ul>{% endif %}
+<p>{{ record.override_reason }} {{ record.cancellation_reason }}</p>
+{% if perms.procurement.override_match and record.state == 'mismatch' %}<a class="workspace-link" href="{% url 'procurement_action' 'override' record.pk %}">{% translate "Approve match exception" %}</a>{% endif %}
+{% if perms.procurement.override_match and record.state != 'cancelled' %}<a class="workspace-link" href="{% url 'procurement_action' 'cancel-invoice' record.pk %}">{% translate "Cancel invoice" %}</a>{% endif %}
+{% endif %}
+{% if kind != 'rfqs' %}
+<h2 class="font-semibold">{% translate "Attachments" %}</h2>
+<ul>{% for file in attachments %}<li><a class="inline-flex min-h-11 items-center underline" href="{% url 'procurement_download' file.pk %}">#{{ file.pk }} · {{ file.mime_type }} · {{ file.created_at|date:"SHORT_DATE_FORMAT" }}</a></li>{% empty %}<li>{% translate "No attachments." %}</li>{% endfor %}</ul>
+{% if kind == 'requests' and perms.procurement.add_purchaserequest or kind == 'orders' and perms.procurement.add_purchaseorder or kind == 'receipts' and perms.procurement.add_goodsreceipt or kind == 'invoices' and perms.procurement.add_supplierinvoice %}
+<a class="workspace-link" href="{% url 'procurement_upload' kind record.pk %}">{% translate "Upload attachment" %}</a>{% endif %}
+{% endif %}
+</section>
+{% endblock %}

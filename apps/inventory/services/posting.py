@@ -4,6 +4,7 @@ from decimal import ROUND_HALF_UP, Decimal, localcontext
 from typing import Any
 from uuid import UUID
 
+from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -35,7 +36,7 @@ from apps.inventory.services.common import (
     positive_quantity,
     require,
 )
-from apps.masterdata.models import Item, Location, Supplier, Warehouse
+from apps.masterdata.models import Item, Location, Storage, Supplier, Warehouse
 
 
 @dataclass(frozen=True)
@@ -49,6 +50,13 @@ class Receipt:
     reference: str
     expiry: date | None = None
     unit_id: int | None = None
+    initial_quality: str | None = None
+
+    def posting_payload(self) -> dict[str, Any]:
+        payload = vars(self).copy()
+        if self.initial_quality is None:
+            payload.pop("initial_quality")
+        return payload
 
 
 @dataclass(frozen=True)
@@ -196,7 +204,7 @@ def log_posting(actor: User, operation: StockOperation) -> None:
 def receive_goods(actor: User, key: UUID, data: Receipt) -> StockOperation:
     """Receive against a traceable lot. Newly received batches start in quarantine."""
     require(actor, "inventory.receive_stock")
-    operation, created = begin(actor, key, MovementType.RECEIPT, vars(data))
+    operation, created = begin(actor, key, MovementType.RECEIPT, data.posting_payload())
     if not created:
         return operation
     item, location = _item_and_location(data.item_id, data.location_id)
@@ -210,10 +218,25 @@ def receive_goods(actor: User, key: UUID, data: Receipt) -> StockOperation:
     supplier = Supplier.objects.select_for_update().filter(pk=data.supplier_id, active=True).first()
     if supplier is None:
         raise ValidationError(_("Use an active supplier."))
-    batch, _created = Batch.objects.get_or_create(
+    quality = data.initial_quality or Quality.QUARANTINE
+    if quality != Quality.QUARANTINE:
+        require(actor, "procurement.add_goodsreceipt")
+        quarantine = (
+            settings.PROCUREMENT_QUARANTINE_DRY
+            if item.storage == Storage.DRY
+            else settings.PROCUREMENT_QUARANTINE_COLD
+        )
+        if quality != Quality.APPROVED or quarantine:
+            raise ValidationError(_("This receipt must start in quarantine."))
+    batch, new_batch = Batch.objects.get_or_create(
         item=item,
         number=number,
-        defaults={"supplier": supplier, "expiry": data.expiry, "receipt_reference": reference},
+        defaults={
+            "supplier": supplier,
+            "expiry": data.expiry,
+            "receipt_reference": reference,
+            "quality": quality,
+        },
     )
     if (batch.supplier_id, batch.expiry, batch.receipt_reference) != (
         supplier.pk,
@@ -221,7 +244,7 @@ def receive_goods(actor: User, key: UUID, data: Receipt) -> StockOperation:
         reference,
     ):
         raise ValidationError(_("This batch number already has different receipt details."))
-    if batch.quality != Quality.QUARANTINE:
+    if not new_batch and batch.quality != Quality.QUARANTINE:
         raise ValidationError(_("Only quarantined batches can accept further receipts."))
     move(
         operation,
@@ -364,6 +387,15 @@ def reverse_movement(actor: User, key: UUID, operation_id: int, reason: str) -> 
     original = StockOperation.objects.select_for_update().filter(pk=operation_id).first()
     if original is None or original.kind == MovementType.REVERSAL:
         raise ValidationError(_("Choose an original posting to reverse."))
+    if (
+        apps.get_model("procurement", "GoodsReceiptLine")
+        ._default_manager.filter(operation=original)
+        .exists()
+        or apps.get_model("procurement", "SupplierReturn")
+        ._default_manager.filter(operation=original)
+        .exists()
+    ):
+        raise ValidationError(_("Use procurement corrections for this stock posting."))
     prior = StockOperation.objects.filter(reverses=original).first()
     if prior is not None and prior.idempotency_key != key:
         raise ValidationError(_("This posting has already been reversed."))

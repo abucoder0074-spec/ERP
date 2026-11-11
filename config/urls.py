@@ -6,6 +6,7 @@ from apps.core.views import WorkspaceLoginView, forbidden, health, home
 from apps.core.views.pwa import manifest, offline, service_worker
 
 urlpatterns = [
+    path("procurement/", include("apps.procurement.urls")),
     path("stock/", include("apps.inventory.urls")),
     path("catalog/", include("apps.masterdata.urls")),
     path("manifest.webmanifest", manifest, name="manifest"),

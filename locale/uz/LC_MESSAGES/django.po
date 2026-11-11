@@ -666,3 +666,471 @@ msgstr "Hisobdan chiqarish"
 
 msgid "Processing…"
 msgstr "Bajarilmoqda…"
+
+msgid "A decision maker cannot approve more than one step."
+msgstr "Bir tasdiqlovchi bir nechta bosqichni tasdiqlay olmaydi."
+
+msgid "A fully returned receipt cannot be invoiced."
+msgstr "To‘liq qaytarilgan kirimga hisob-faktura yozib bo‘lmaydi."
+
+msgid "A positive reorder amount and known cost are required. Create a request manually."
+msgstr "Musbat buyurtma miqdori va ma’lum tannarx kerak. Talabnomani qo‘lda yarating."
+
+msgid "A receipt line already belongs to another invoice."
+msgstr "Kirim qatori boshqa hisob-fakturaga biriktirilgan."
+
+msgid "Actual delivery"
+msgstr "Amaldagi yetkazish sanasi"
+
+msgid "Add line"
+msgstr "Qator qo‘shish"
+
+msgid "Amend purchase order"
+msgstr "Xarid buyurtmasiga o‘zgartirish kiritish"
+
+msgid "Amendment reason"
+msgstr "O‘zgartirish sababi"
+
+msgid "An active or rejected order without a pending amendment is required."
+msgstr "Ko‘rib chiqilayotgan o‘zgartirishi yo‘q faol yoki rad etilgan buyurtmani tanlang."
+
+msgid "An active order and at least one delivery line are required."
+msgstr "Faol buyurtma va kamida bitta kirim qatori kerak."
+
+msgid "An amendment must preserve already received stock and its commercial terms."
+msgstr "O‘zgartirish qabul qilingan zaxira va uning tijorat shartlarini saqlashi kerak."
+
+msgid "An approval requires at least one assignment."
+msgstr "Tasdiqlash uchun kamida bitta topshiriq kerak."
+
+msgid "An unplanned receipt needs a unit price."
+msgstr "Rejadan tashqari kirim uchun birlik narxi kerak."
+
+msgid "Approval configuration"
+msgstr "Tasdiqlash sozlamalari"
+
+msgid "Approval decision"
+msgstr "Tasdiqlash qarori"
+
+msgid "Approval inbox"
+msgstr "Tasdiqlash navbati"
+
+msgid "Approval level"
+msgstr "Tasdiqlash bosqichi"
+
+msgid "Approval rules"
+msgstr "Tasdiqlash qoidalari"
+
+msgid "Approve"
+msgstr "Tasdiqlash"
+
+msgid "Approve match exception"
+msgstr "Tafovutni tasdiqlash"
+
+msgid "Approver group"
+msgstr "Tasdiqlovchilar guruhi"
+
+msgid "Attach a photo to this receipt before returning stock."
+msgstr "Zaxirani qaytarishdan oldin kirimga surat biriktiring."
+
+msgid "Attachment"
+msgstr "Ilova"
+
+msgid "Attachment contents do not match the selected file type."
+msgstr "Fayl mazmuni tanlangan turga mos kelmaydi."
+
+msgid "Attachments"
+msgstr "Ilovalar"
+
+msgid "Cancel RFQ"
+msgstr "Narx so‘rovini bekor qilish"
+
+msgid "Cancel invoice"
+msgstr "Hisob-fakturani bekor qilish"
+
+msgid "Cancel purchase order"
+msgstr "Xarid buyurtmasini bekor qilish"
+
+msgid "Cancel the linked invoice before returning this stock."
+msgstr "Qaytarishdan oldin bog‘langan hisob-fakturani bekor qiling."
+
+msgid "Changes from previous version"
+msgstr "Oldingi versiyaga nisbatan o‘zgarishlar"
+
+msgid "Check the supplier and expected delivery date."
+msgstr "Yetkazib beruvchi va rejalashtirilgan sanani tekshiring."
+
+msgid "Choose a currently valid quote."
+msgstr "Amaldagi taklifni tanlang."
+
+msgid "Choose a valid item and location."
+msgstr "Mavjud mahsulot va joyni tanlang."
+
+msgid "Choose a valid priority and needed-by date."
+msgstr "Ustuvorlik va kerakli sanani tanlang."
+
+msgid "Choose an approved purchase request."
+msgstr "Tasdiqlangan xarid talabnomasini tanlang."
+
+msgid "Choose an approved request without an RFQ."
+msgstr "Narx so‘rovi yo‘q tasdiqlangan talabnomani tanlang."
+
+msgid "Choose an open low-stock alert."
+msgstr "Zaxira kamligi bo‘yicha faol ogohlantirishni tanlang."
+
+msgid "Choose the current selected quote."
+msgstr "Hozir tanlangan taklifni tanlang."
+
+msgid "Comment"
+msgstr "Izoh"
+
+msgid "Compare versions of the same order."
+msgstr "Bir buyurtmaning versiyalarini solishtiring."
+
+msgid "Convert request to purchase order"
+msgstr "Talabnomadan xarid buyurtmasini yaratish"
+
+msgid "Converted"
+msgstr "Buyurtmaga aylantirilgan"
+
+msgid "Create purchase order"
+msgstr "Xarid buyurtmasini yaratish"
+
+msgid "Create purchase request"
+msgstr "Xarid talabnomasini yaratish"
+
+msgid "Create replenishment request"
+msgstr "To‘ldirish talabnomasini yaratish"
+
+msgid "Currency"
+msgstr "Valyuta"
+
+msgid "Decision"
+msgstr "Qaror"
+
+msgid "Defective lines"
+msgstr "Nuqsonli qatorlar"
+
+msgid "Delay reason"
+msgstr "Kechikish sababi"
+
+msgid "Delegate"
+msgstr "Vakil"
+
+msgid "Delegations"
+msgstr "Vakolatlar"
+
+msgid "Delivery cannot be dated in the future."
+msgstr "Yetkazish sanasi kelajakda bo‘la olmaydi."
+
+msgid "Delivery rating"
+msgstr "Yetkazish reytingi"
+
+msgid "Delivery tracking"
+msgstr "Yetkazishni kuzatish"
+
+msgid "Department"
+msgstr "Bo‘lim"
+
+msgid "Draft"
+msgstr "Qoralama"
+
+msgid "Earlier approval steps must finish first."
+msgstr "Avval oldingi tasdiqlash bosqichlari yakunlanishi kerak."
+
+msgid "Ends on"
+msgstr "Tugash sanasi"
+
+msgid "Enter a positive quantity or price."
+msgstr "Musbat miqdor yoki narx kiriting."
+
+msgid "Enter a price for every request line."
+msgstr "Har bir talabnoma qatoriga narx kiriting."
+
+msgid "Enter a valid currency, exchange rate and rate date."
+msgstr "Valyuta, kurs va kurs sanasini to‘g‘ri kiriting."
+
+msgid "Enter a value within the allowed length."
+msgstr "Ruxsat etilgan uzunlikdagi qiymatni kiriting."
+
+msgid "Enter valid quote dates and lead time."
+msgstr "Taklif sanalari va yetkazish muddatini tekshiring."
+
+msgid "Estimated unit cost in UZS"
+msgstr "Taxminiy birlik tannarxi, so‘m"
+
+msgid "Exclusive maximum amount"
+msgstr "Yuqori chegara, kiritilmaydi"
+
+msgid "Expected delivery"
+msgstr "Rejalashtirilgan yetkazish"
+
+msgid "Goods receipts"
+msgstr "Tovar kirimlari"
+
+msgid "Invalid attachment filename."
+msgstr "Ilova faylining nomi noto‘g‘ri."
+
+msgid "Invite at least two distinct active suppliers."
+msgstr "Kamida ikki xil faol yetkazib beruvchini taklif qiling."
+
+msgid "Invited suppliers"
+msgstr "Taklif qilingan yetkazib beruvchilar"
+
+msgid "Invoice currency differs from the order version."
+msgstr "Hisob-faktura valyutasi buyurtma versiyasidan farq qiladi."
+
+msgid "Invoice date"
+msgstr "Hisob-faktura sanasi"
+
+msgid "Invoice date cannot be in the future."
+msgstr "Hisob-faktura sanasi kelajakda bo‘la olmaydi."
+
+msgid "Invoice number"
+msgstr "Hisob-faktura raqami"
+
+msgid "Invoice price differs from the purchase order."
+msgstr "Hisob-faktura narxi xarid buyurtmasidan farq qiladi."
+
+msgid "Invoice quantity differs from net receipt quantity."
+msgstr "Hisob-faktura miqdori sof kirim miqdoridan farq qiladi."
+
+msgid "Justification"
+msgstr "Asos"
+
+msgid "Minimum amount"
+msgstr "Minimal summa"
+
+msgid "Mismatch"
+msgstr "Tafovut bor"
+
+msgid "Needed by"
+msgstr "Kerakli sana"
+
+msgid "No approval rule covers this amount and category."
+msgstr "Bu summa va toifa uchun tasdiqlash qoidasi yo‘q."
+
+msgid "No attachments."
+msgstr "Ilovalar yo‘q."
+
+msgid "No overdue deliveries."
+msgstr "Muddati o‘tgan yetkazishlar yo‘q."
+
+msgid "No pending approvals."
+msgstr "Tasdiqlash kutilayotgan yozuvlar yo‘q."
+
+msgid "No quotes recorded."
+msgstr "Narx takliflari kiritilmagan."
+
+msgid "Normal"
+msgstr "Oddiy"
+
+msgid "On time"
+msgstr "O‘z vaqtida"
+
+msgid "Only the requester can submit this draft."
+msgstr "Qoralamani faqat talabnoma muallifi yuborishi mumkin."
+
+msgid "Open"
+msgstr "Ochiq"
+
+msgid "Order prices must match the selected quote."
+msgstr "Buyurtma narxlari tanlangan taklifga mos bo‘lishi kerak."
+
+msgid "Order quantities and items must match the approved request."
+msgstr "Buyurtma miqdorlari va mahsulotlari tasdiqlangan talabnomaga mos bo‘lishi kerak."
+
+msgid "Order terms must match the selected quote."
+msgstr "Buyurtma shartlari tanlangan taklifga mos bo‘lishi kerak."
+
+msgid "Overdue deliveries"
+msgstr "Muddati o‘tgan yetkazishlar"
+
+msgid "Payment terms"
+msgstr "To‘lov shartlari"
+
+msgid "Preferred supplier"
+msgstr "Afzal yetkazib beruvchi"
+
+msgid "Principal approver"
+msgstr "Asosiy tasdiqlovchi"
+
+msgid "Priority"
+msgstr "Ustuvorlik"
+
+msgid "Procurement"
+msgstr "Ta’minot"
+
+msgid "Purchase orders"
+msgstr "Xarid buyurtmalari"
+
+msgid "Purchase requests"
+msgstr "Xarid talabnomalari"
+
+msgid "Quote number"
+msgstr "Taklif raqami"
+
+msgid "Rate date"
+msgstr "Kurs sanasi"
+
+msgid "Ready for payment"
+msgstr "To‘lovga tayyor"
+
+msgid "Receipt line"
+msgstr "Kirim qatori"
+
+msgid "Receipt photo"
+msgstr "Kirim surati"
+
+msgid "Receipt photo number"
+msgstr "Kirim surati raqami"
+
+msgid "Receive against order"
+msgstr "Buyurtma bo‘yicha qabul qilish"
+
+msgid "Record RFQ dispatch"
+msgstr "Narx so‘rovi yuborilganini qayd qilish"
+
+msgid "Record quote"
+msgstr "Narx taklifini kiritish"
+
+msgid "Record supplier invoice"
+msgstr "Yetkazib beruvchi hisob-fakturasini kiritish"
+
+msgid "Reject"
+msgstr "Rad etish"
+
+msgid "Replenishment from a low-stock alert."
+msgstr "Kam zaxira ogohlantirishi bo‘yicha to‘ldirish."
+
+msgid "Requests for quotation"
+msgstr "Narx so‘rovlari"
+
+msgid "Return defective goods"
+msgstr "Nuqsonli tovarni qaytarish"
+
+msgid "Return quantity exceeds the remaining receipt quantity."
+msgstr "Qaytariladigan miqdor qolgan kirim miqdoridan oshadi."
+
+msgid "Select a quote before converting this request."
+msgstr "Talabnomani buyurtmaga aylantirishdan oldin taklifni tanlang."
+
+msgid "Select quote"
+msgstr "Taklifni tanlash"
+
+msgid "Selected"
+msgstr "Tanlangan"
+
+msgid "Selection reason"
+msgstr "Tanlash sababi"
+
+msgid "Starts on"
+msgstr "Boshlanish sanasi"
+
+msgid "Submit purchase request"
+msgstr "Xarid talabnomasini yuborish"
+
+msgid "Subtotal"
+msgstr "Oraliq jami"
+
+msgid "Superseded"
+msgstr "Yangi versiya bilan almashtirilgan"
+
+msgid "Supplier invoices"
+msgstr "Yetkazib beruvchi hisob-fakturalari"
+
+msgid "Supplier performance"
+msgstr "Yetkazib beruvchi ko‘rsatkichlari"
+
+msgid "The RFQ must be open and the supplier invited."
+msgstr "Narx so‘rovi ochiq bo‘lishi va yetkazib beruvchi taklif qilingan bo‘lishi kerak."
+
+msgid "The attachment failed the security scan."
+msgstr "Ilova xavfsizlik tekshiruvidan o‘tmadi."
+
+msgid "The attachment scanner is unavailable."
+msgstr "Ilovalarni xavfsizlik tekshiruvi ishlamayapti."
+
+msgid "The receipt line has no purchase order line."
+msgstr "Kirim qatori xarid buyurtmasi qatoriga bog‘lanmagan."
+
+msgid "This approval is closed."
+msgstr "Bu tasdiqlash jarayoni yopilgan."
+
+msgid "This change conflicts with an existing document."
+msgstr "O‘zgarish mavjud hujjatga zid."
+
+msgid "This document cannot move to the requested state."
+msgstr "Hujjatni so‘ralgan holatga o‘tkazib bo‘lmaydi."
+
+msgid "This key belongs to a different procurement request."
+msgstr "Bu kalit boshqa xarid amaliga tegishli."
+
+msgid "This receipt exceeds the cumulative order tolerance."
+msgstr "Kirim buyurtmaning jami ruxsat etilgan miqdoridan oshadi."
+
+msgid "This receipt must start in quarantine."
+msgstr "Bu kirim dastlab karantinda bo‘lishi kerak."
+
+msgid "This supplier already has a quote."
+msgstr "Bu yetkazib beruvchining taklifi allaqachon mavjud."
+
+msgid "This supplier invoice number already exists."
+msgstr "Yetkazib beruvchining bu hisob-faktura raqami allaqachon mavjud."
+
+msgid "This supplier invoice number or posting key already exists."
+msgstr "Hisob-faktura raqami yoki amal kaliti allaqachon mavjud."
+
+msgid "This total is outside the supported money range."
+msgstr "Jami summa ruxsat etilgan oraliqdan tashqarida."
+
+msgid "UZS per currency unit"
+msgstr "Bir valyuta birligi uchun so‘m"
+
+msgid "Unit price"
+msgstr "Birlik narxi"
+
+msgid "Unplanned receipt reason"
+msgstr "Rejadan tashqari kirim sababi"
+
+msgid "Unplanned unit price"
+msgstr "Rejadan tashqari birlik narxi"
+
+msgid "Upload a JPEG, PNG or PDF within the attachment limit."
+msgstr "Ruxsat etilgan hajmda JPEG, PNG yoki PDF yuklang."
+
+msgid "Upload attachment"
+msgstr "Ilova yuklash"
+
+msgid "Urgent"
+msgstr "Shoshilinch"
+
+msgid "Use distinct active items and active suppliers."
+msgstr "Turli faol mahsulotlar va faol yetkazib beruvchilardan foydalaning."
+
+msgid "Use distinct active order items."
+msgstr "Turli faol buyurtma mahsulotlarini tanlang."
+
+msgid "Use distinct receipt lines from this order."
+msgstr "Shu buyurtmaning turli kirim qatorlarini tanlang."
+
+msgid "Use procurement corrections for this stock posting."
+msgstr "Bu harakatni xarid hujjatlari orqali tuzating."
+
+msgid "VAT"
+msgstr "QQS"
+
+msgid "Valid from"
+msgstr "Amal qilish boshlanishi"
+
+msgid "Valid until"
+msgstr "Amal qilish tugashi"
+
+msgid "Version"
+msgstr "Versiya"
+
+msgid "Version history"
+msgstr "Versiyalar tarixi"
+
+msgid "Total in UZS"
+msgstr "So‘mdagi jami"

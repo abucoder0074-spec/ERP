@@ -11,6 +11,7 @@ from redis.exceptions import RedisError
 from apps.core.forms import WorkspaceAuthenticationForm
 from apps.core.services.login import LoginUnavailable, login_attempt, login_redis
 from apps.inventory.models import Notification
+from apps.procurement.models import DeliveryAlert
 
 
 class WorkspaceLoginView(LoginView):
@@ -49,6 +50,13 @@ def home(request: HttpRequest) -> HttpResponse:
             ]
         )
         context["show_alerts"] = True
+    if request.user.has_perm("procurement.view_goodsreceipt"):
+        context["delivery_alerts"] = list(
+            DeliveryAlert.objects.filter(resolved_at__isnull=True, order__state="active")
+            .select_related("order__supplier", "version")
+            .order_by("-pk")[:5]
+        )
+        context["show_delivery_alerts"] = True
     return render(request, "home.html", context)
 
 
